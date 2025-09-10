@@ -15,10 +15,10 @@ Construir una API REST **desde cero** en ASP.NET Core que exponga **CRUD** para 
 - Rama de equipo:  
   ```bash
   git checkout -b gym/teamXX
-
-  git checkout -b challenge/teamXX
+  ```
 
 - Subramas por feature:
+  ```bash
     gym/teamXX-members
 
     gym/teamXX-memberships
@@ -66,7 +66,7 @@ DTOS OBLIGATORIOS:
 
 ## 📌 Endpoints obligatorios
 Members:
-
+```
 GET /api/v1/members (lista con paginación, orden)
 
 GET /api/v1/members/{id}
@@ -76,8 +76,10 @@ POST /api/v1/members
 PUT /api/v1/members/{id}
 
 DELETE /api/v1/members/{id}
+```
 
 Memberships:
+```
 
 GET /api/v1/memberships (lista con paginación, orden)
 
@@ -88,9 +90,10 @@ POST /api/v1/memberships
 PUT /api/v1/memberships/{id}
 
 DELETE /api/v1/memberships/{id}
+```
 
 CheckIns
-
+```
 GET /api/v1/checkins (lista con paginación, orden)
 
 GET /api/v1/checkins/{id}
@@ -98,25 +101,26 @@ GET /api/v1/checkins/{id}
 POST /api/v1/checkins
 
 DELETE /api/v1/checkins/{id}
+```
+
+## Query Params comunes
+
+* page (default 1, min 1)
+
+* limit (default 10, rango 1–100)
+
+* sort (campo permitido por recurso)
+
+* order (asc | desc, default asc)
 
 
-Query Params comunes
-
-page (default 1, min 1)
-
-limit (default 10, rango 1–100)
-
-sort (campo permitido por recurso)
-
-order (asc | desc, default asc)
-
-
-Respuesta estándar
+## Respuesta estándar
+```
 {
   "data": [ /* items */ ],
   "meta": { "page": 1, "limit": 10, "total": 134 }
 }
-
+```
 ## ✅ Reglas HTTP
 
 201 Created → al crear
@@ -130,19 +134,19 @@ Respuesta estándar
 404 Not Found → recurso inexistente
 
 Ejemplo:
-
+```
 { "error": "Member not found", "status": 404 }
-
+```
 
 ## 🧪 Ejemplos JSON
 
 POST /api/v1/members
-
+```
 { "email":"ana@example.com", "fullName":"Ana Pérez", "active":true }
 
-
+```
 POST /api/v1/memberships
-
+```
 {
   "memberId":"00000000-0000-0000-0000-000000000001",
   "plan":"pro",
@@ -150,22 +154,22 @@ POST /api/v1/memberships
   "endDate":"2026-09-10T00:00:00Z",
   "status":"active"
 }
-
+```
 
 POST /api/v1/checkins
-
+```
 { "badgeCode":"GYM-12345" }
-
+```
 
 
 ## 🔗 Ejemplos de URLs
-
+```
 /api/v1/members?page=1&limit=5&sort=fullName&order=asc
 
 /api/v1/memberships?sort=startDate&order=desc&page=2&limit=10
 
 /api/v1/checkins?&sort=timestamp&order=desc&page=1&limit=20
-
+```
 
 # 🧾 Planilla de Evaluación (100 pts)
 ## 1) Modelos & DTOs (25 pts)
@@ -201,4 +205,5 @@ POST /api/v1/checkins
 (5) README con endpoints, ejemplos JSON y URLs de listados
 
 # Aprobación mínima: 70 pts
+
 
