@@ -61,5 +61,13 @@ namespace newCRUD.Controllers
                 meta = new { page = p, limit = l, total }
             });
         }
+        [HttpGet("{id:guid}")]
+        public ActionResult<CheckIn> GetOne(Guid id)
+        {
+            var checkIn = _checkIns.FirstOrDefault(c => c.Id == id);
+            return checkIn is null
+                ? NotFound(new { error = "CheckIn not found", status = 404 })
+                : Ok(checkIn);
+        }
     }
 }
