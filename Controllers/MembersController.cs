@@ -38,26 +38,22 @@ namespace Members.Controller
         public IActionResult GetAll(
             [FromQuery] int? page,
             [FromQuery] int? limit,
-            [FromQuery] string? sort,     // ejemplo: name
-            [FromQuery] string? order,    // asc | desc
-            [FromQuery] string? q        // búsqueda en Name
+            [FromQuery] string? sort,
+            [FromQuery] string? order,
+            [FromQuery] string? q
         )
         {
             var (p, l) = NormalizePage(page, limit);
 
             IEnumerable<Member> query = members;
 
-            // 🔎 búsqueda libre (Name/Species)
             if (!string.IsNullOrWhiteSpace(q))
             {
                 query = query.Where(a =>
                     a.FullName.Contains(q, StringComparison.OrdinalIgnoreCase));
             }
-
-            // ↕️ ordenamiento dinámico (safe)
             query = OrderByProp(query, sort, order);
 
-            // 📄 paginación
             var total = query.Count();
             var data = query.Skip((p - 1) * l).Take(l).ToList();
 
@@ -67,6 +63,15 @@ namespace Members.Controller
                     data,
                     meta = new { page = p, limit = l, total }
                 });
+        }
+
+        ///GET /api/v1/memberships/{id}
+
+        [HttpGet("{id:guid}")]
+        public ActionResult<Member> GetOne(Guid id)
+        {
+            var member = members.FirstOrDefault(a => a.Id == id); 
+            return member is null?  NotFound(new { error = "Member not found", status = 404 }): Ok(member); 
         }
 
 
