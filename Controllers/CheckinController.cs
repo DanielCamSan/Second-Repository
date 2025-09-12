@@ -64,6 +64,16 @@ namespace FirstExam.Controllers
         }
 
 
+        [HttpGet("{id:guid}")]
+        public ActionResult<Checkin> GetOne(Guid id)
+        {
+            var check = _checkins.FirstOrDefault(a => a.Id == id);
+            return check is null
+                ? NotFound(new { error = "Checkin not found", status = 404 })
+                : Ok(check);
+        }
+
+
 
     }
 }
