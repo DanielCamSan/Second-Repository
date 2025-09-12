@@ -104,6 +104,24 @@ namespace FirstExam.Controllers
             return CreatedAtAction(nameof(GetById), new { id = newMember.Id }, newMember);
         }
 
+        [HttpPut("{id:guid}")]
+        public ActionResult Update(Guid id, [FromBody] UpdateMemberDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var member = members.FirstOrDefault(m => m.Id == id);
+            if (member == null)
+            {
+                return NotFound(new { message = "Member not found", status = 404 });
+            }
+            member.Email = dto.Email;
+            member.FullName = dto.FullName;
+            member.Active = dto.Active;
+            return Ok(member);
+        }
+
 
 
     }
