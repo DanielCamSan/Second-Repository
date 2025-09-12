@@ -52,5 +52,16 @@ namespace FirstExam.Controllers
             });
         }
 
+
+
+        [HttpGet("{id:guid}")]
+        public ActionResult<Member> GetOne(Guid id)
+        {
+            var member = _members.FirstOrDefault(x => x.Id == id);
+            return member is null 
+                ? NotFound(new { error = "Member not found", status = 404})
+                : Ok(member);
+        }
+
     }
 }
