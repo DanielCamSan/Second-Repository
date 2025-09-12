@@ -73,9 +73,27 @@ namespace FirstExam.Controllers
                 : Ok(check);
         }
 
+        [HttpPost]
+        public ActionResult<Checkin> Create([FromBody] CreateCheckinDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var check = new Checkin
+            {
+                Id = Guid.NewGuid(),
+                BadgeCode = dto.BadgeCode.Trim(),
+                Timestamp = dto.Timestamp
+            };
+
+            _checkins.Add(check);
+            return CreatedAtAction(nameof(GetOne), new { id = check.Id }, check);
+        }
+
+        
 
 
-    }
+
+}
 }
 /*
  * CreateCheckInDto
