@@ -9,9 +9,9 @@ namespace FirstExam.Controllers
     {
         private static readonly List<Membership> _membership = new()
         {
-            new Membership{Id=Guid.NewGuid(), MemberId=Guid.NewGuid(), Plan = "Basic", StartDate=DateTime.Now,EndDate=DateTime.Today,Status="active"},
-            new Membership{Id=Guid.NewGuid(),MemberId=Guid.NewGuid(), Plan= "Pro", StartDate = DateTime.Now,EndDate=DateTime.Today, Status="active"},
-            new Membership{Id=Guid.NewGuid(),MemberId = Guid.NewGuid(), Plan= "Premium", StartDate =DateTime.Now,EndDate=DateTime.Today, Status="active" }
+            new Membership{Id=Guid.NewGuid(), MemberId=Guid.NewGuid(), Plan = "Basic", StartDate=DateTime.Now,EndDate=new DateTime(2025, 10, 25, 14, 30, 0),Status="active"},
+            new Membership{Id=Guid.NewGuid(),MemberId=Guid.NewGuid(), Plan= "Pro", StartDate = DateTime.Now,EndDate=new DateTime(2026, 12, 25, 14, 30, 0), Status="active"},
+            new Membership{Id=Guid.NewGuid(),MemberId = Guid.NewGuid(), Plan= "Premium", StartDate =DateTime.Now,EndDate=new DateTime(2025, 12, 25, 14, 30, 0), Status="active" }
         };
         private static (int page, int limit) NormalizePage(int? page, int? limit)
         {
