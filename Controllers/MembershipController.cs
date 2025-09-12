@@ -69,7 +69,7 @@ namespace FirstExam.Controllers
 
             var index = _memberships.FindIndex(a => a.id == id);
             if (index == -1)
-                return NotFound(new { error = "Subscription not found", status = 404 });
+                return NotFound(new { error = "Membership not found", status = 404 });
 
             var updated = new Membership
             {
@@ -85,5 +85,13 @@ namespace FirstExam.Controllers
             return Ok(updated);
         }
 
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = _memberships.RemoveAll(a => a.id == id);
+            return removed == 0
+                ? NotFound(new { error = "Membership not found", status = 404 })
+                : NoContent();
+        }
     }
 }
