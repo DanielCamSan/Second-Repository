@@ -26,3 +26,15 @@ public record CreateMemberDto
     [Required]
     bool Active { get; set; }
 }
+
+public record UpdateMemberDto
+{
+    [Required, EmailAddress]
+    public string Email { get; set; } = string.Empty;
+
+    [Required, StringLength(200)]
+    public string FullName { get; set; } = string.Empty;
+
+    [Required]
+    bool Active { get; set; }
+}
