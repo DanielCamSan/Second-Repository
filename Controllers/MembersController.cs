@@ -32,7 +32,59 @@ namespace FirstExam.Controllers
                 : src.OrderBy(x => prop.GetValue(x));
         }
 
+        [HttpGet]
+        public IActionResult GetAll(
+            [FromQuery] int? page,
+            [FromQuery] int? limit,
+            [FromQuery] string? sort,
+            [FromQuery] string? q,
+            [FromQuery] string? order,
+            [FromQuery] string? names
+            )
+        {
+            var (p, l) = NormalizePage(page, limit);
 
+            IEnumerable<Member> query = members;
+
+            //busqueda libre
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                query = query.Where(a =>
+                    a.Email.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+                    a.FullName.Contains(q, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // 🧭 filtro específico (Names)
+            if (!string.IsNullOrWhiteSpace(names))
+            {
+                query = query.Where(a => a.FullName.Equals(names, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // ↕️ ordenamiento dinámico (safe)
+            query = OrderByProp(query, sort, order);
+
+            // 📄 paginación
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToList();
+
+            return Ok(new
+            {
+                data,
+                meta = new { page = p, limit = l, total }
+            });
+
+
+        }
+        [HttpGet("{id:guid}")]
+        public ActionResult GetById(Guid id)
+        {
+            var member = members.FirstOrDefault(m => m.Id == id);
+            if (member == null)
+            {
+                return NotFound(new { message = "Member not found", status =404});
+            }
+            return Ok(member);
+        }
 
     }
 }
