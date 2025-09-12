@@ -9,10 +9,8 @@ public class Membership
     [Required, StringLength(100)]
     public string plan { get; init; } = string.Empty;
 
-    [Required, StringLength(100)]
     public DateTime StartTime { get; init; }
 
-    [Required, StringLength(100)]
     public DateTime Endtime { get; init; }
 
     [Required, StringLength(100)]
@@ -30,10 +28,8 @@ public record CreateMembershipDto
     [Required, StringLength(100)]
     public string plan { get; init; } = string.Empty;
 
-    [Required, StringLength(100)]
     public DateTime StartTime { get; init; }
 
-    [Required, StringLength(100)]
     public DateTime Endtime { get; init; }
 
     [Required, StringLength(100)]
@@ -49,10 +45,8 @@ public record UpdateMembershipDto
     [Required, StringLength(100)]
     public string plan { get; init; } = string.Empty;
 
-    [Required, StringLength(100)]
     public DateTime StartTime { get; init; }
 
-    [Required, StringLength(100)]
     public DateTime Endtime { get; init; }
 
     [Required, StringLength(100)]

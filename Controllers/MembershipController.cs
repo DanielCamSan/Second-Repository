@@ -17,6 +17,50 @@ namespace FirstExam.Controllers
             new Membership{id=Guid.NewGuid(), MemberId = Guid.NewGuid(), Endtime = DateTime.Now, StartTime =DateTime.Now, plan = "Pro", status = "Active"}
         };
 
+        [HttpGet]
+        public IActionResult GetAll(
+          [FromQuery] int? page,
+          [FromQuery] int? limit,
+          [FromQuery] string? sort,
+          [FromQuery] string? order,
+          [FromQuery] string? q,
+          [FromQuery] string? plan
+      )
+        {
+            var (p, l) = NormalizePage(page, limit);
+
+            IEnumerable<Membership> query = _memberships;
+
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                var term = q.Trim();
+
+                var esFecha = DateTime.TryParse(term, out var dt);
+
+                query = query.Where(a =>
+                    a.plan.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                    a.status.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                    (esFecha && a.Endtime == dt.Date) ||
+                    (esFecha && a.StartTime == dt.Date)
+                );
+            }
+
+            if (!string.IsNullOrWhiteSpace(plan))
+            {
+                query = query.Where(a => a.plan.Equals(plan, StringComparison.OrdinalIgnoreCase));
+            }
+
+            query = OrderByProp(query, sort, order);
+
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToList();
+
+            return Ok(new
+            {
+                data,
+                meta = new { page = p, limit = l, total }
+            });
+        }
         private static (int page, int limit) NormalizePage(int? page, int? limit)
         {
             var p = page.GetValueOrDefault(1); if (p < 1) p = 1;
