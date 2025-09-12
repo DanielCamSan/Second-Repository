@@ -102,5 +102,15 @@ namespace FirstExam.Controllers
             _members[index] = updated;
             return Ok(updated);
         }
+
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = _members.RemoveAll(x => x.Id == id);
+            return removed == 0
+                ? NotFound(new { error = "Member not found", status = 404 })
+                : NoContent();
+        }
     }
 }
