@@ -82,6 +82,25 @@ namespace FirstExam.Controllers
         }
 
 
+        [HttpPut]
+        public ActionResult<Member> Update(Guid id, [FromBody] UpdateMemberDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
+            var index = _members.FindIndex(x => x.Id == id);
+            if (index == -1)
+                return NotFound(new { error = "Member not found", status = 404 });
+
+            var updated = new Member
+            {
+                Id = id,
+                Email = dto.Email.Trim(),
+                FullName = dto.FullName.Trim(),
+                Active = true
+            };
+
+            _members[index] = updated;
+            return Ok(updated);
+        }
     }
 }
