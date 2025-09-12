@@ -11,6 +11,15 @@ public class Member
     public string FullName { get; set; } = string.Empty;
 
 
-    public bool Active = true; 
+    public bool Active = true;
 
+}
+
+public record CreateMemberDto
+{
+    [Required, EmailAddress]
+    public string Email { get; set; } = string.Empty;
+
+    [Required, StringLength(50)]
+    public string FullName { get; set; } = string.Empty;
 }

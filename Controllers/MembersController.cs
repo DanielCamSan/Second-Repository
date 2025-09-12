@@ -70,10 +70,23 @@ namespace Members.Controller
         [HttpGet("{id:guid}")]
         public ActionResult<Member> GetOne(Guid id)
         {
-            var member = members.FirstOrDefault(a => a.Id == id); 
-            return member is null?  NotFound(new { error = "Member not found", status = 404 }): Ok(member); 
+            var member = members.FirstOrDefault(a => a.Id == id);
+            return member is null ? NotFound(new { error = "Member not found", status = 404 }) : Ok(member);
         }
 
+        [HttpPost]
+        public ActionResult<Member> Create([FromBody] CreateMemberDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var member = new Member
+            {
+                Id = Guid.NewGuid(),
+                FullName = dto.FullName,
+                Email = dto.Email
+            };
+            members.Add(member);
+            return CreatedAtAction(nameof(GetOne), new { Id = member.Id }, member);
 
+        }
     }
 }
