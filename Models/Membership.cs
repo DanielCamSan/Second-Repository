@@ -6,12 +6,12 @@ public class Membership
     public Guid MemberId { get; set; }
 
     public string Plan { get; set; } = string.Empty;
-    DateTime StartDate { get; set; }
-    DateTime EndDate { get; set; }
-    string Status { get; set; } = string.Empty;
+    public DateTime StartDate = DateTime.Now;
+    public DateTime EndDate = DateTime.Now;
+    public string Status { get; set; } = string.Empty;
 }
 
-// DTOs (entrada/salida para la API)
+
 public record CreateMembershipDto
 {
     public Guid MemberId { get; init; }
