@@ -16,3 +16,8 @@ public record CreateCheckInDto
     public string BadgeCode { get; init; } = string.Empty;
 }
 
+public record UpdateCheckInDto
+{
+    [Required, StringLength(100)]
+    public string BadgeCode { get; init; } = string.Empty;
+}
