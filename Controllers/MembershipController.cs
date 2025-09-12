@@ -42,5 +42,26 @@ namespace FirstExam.Controllers
                 ? NotFound(new { error = "Membership not found", status = 404 })
                 : Ok(membership);
         }
+
+        [HttpPost]
+        public ActionResult<Membership> Create([FromBody] CreateMembershipDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var membership = new Membership
+            {
+                id = Guid.NewGuid(),
+                MemberId= Guid.NewGuid(),
+                status =  dto.status.Trim(),
+                plan = dto.plan.Trim(),
+                StartTime = DateTime.Now,
+                Endtime = DateTime.Now,
+             
+            };
+
+            _memberships.Add(membership);
+            return CreatedAtAction(nameof(GetOne), new { id = membership.id }, membership);
+        }
+
     }
 }
