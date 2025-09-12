@@ -96,6 +96,30 @@ namespace newCRUD.Controllers
             return CreatedAtAction(nameof(GetOne), new { id = membership.Id }, membership);
         }
 
+        // UPDATE: PUT api/memberships/{id}
+        [HttpPut("{id:guid}")]
+        public ActionResult<Membership> Update(Guid id, [FromBody] UpdateMembershipDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var index = _memberships.FindIndex(m => m.Id == id);
+            if (index == -1)
+                return NotFound(new { error = "Membership not found", status = 404 });
+
+            var updated = new Membership
+            {
+                Id = id,
+                MemberId = dto.MemberId,
+                Plan = dto.Plan,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                Status = dto.Status
+            };
+
+            _memberships[index] = updated;
+            return Ok(updated);
+        }
+
 
     }
 };
