@@ -41,3 +41,23 @@ public record CreateMembershipDto
     [RegularExpression("^(active|expired|canceled)$")]
     public string Status { get; set; } = string.Empty;
 }
+
+public record UpdateMembershipDto
+{
+    [Required]
+    public Guid MemberId { get; set; }
+
+    [Required, StringLength(10)]
+    [RegularExpression("^(basic|pro|premium)$")]
+    public string Plan { get; set; } = string.Empty;
+
+    [Required]
+    public DateTime StartDate { get; set; }
+
+    [Required]
+    public DateTime EndDate { get; set; }
+
+    [Required, StringLength(10)]
+    [RegularExpression("^(active|expired|canceled)$")]
+    public string Status { get; set; } = string.Empty;
+}
