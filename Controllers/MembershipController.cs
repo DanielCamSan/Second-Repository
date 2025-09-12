@@ -62,6 +62,28 @@ namespace FirstExam.Controllers
             _memberships.Add(membership);
             return CreatedAtAction(nameof(GetOne), new { id = membership.id }, membership);
         }
+        [HttpPut("{id:guid}")]
+        public ActionResult<Membership> Update(Guid id, [FromBody] UpdateMembershipDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var index = _memberships.FindIndex(a => a.id == id);
+            if (index == -1)
+                return NotFound(new { error = "Subscription not found", status = 404 });
+
+            var updated = new Membership
+            {
+                id = Guid.NewGuid(),
+                MemberId = Guid.NewGuid(),
+                status = dto.status.Trim(),
+                plan = dto.plan.Trim(),
+                StartTime = DateTime.Now,
+                Endtime = DateTime.Now,
+            };
+
+            _memberships[index] = updated;
+            return Ok(updated);
+        }
 
     }
 }
