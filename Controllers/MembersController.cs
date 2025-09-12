@@ -86,5 +86,25 @@ namespace FirstExam.Controllers
             return Ok(member);
         }
 
+        [HttpPost]
+        public ActionResult Create([FromBody] CreateMemberDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var newMember = new Member
+            {
+                Id = Guid.NewGuid(),
+                Email = dto.Email,
+                FullName = dto.FullName,
+                Active = true
+            };
+            members.Add(newMember);
+            return CreatedAtAction(nameof(GetById), new { id = newMember.Id }, newMember);
+        }
+
+
+
     }
 }
