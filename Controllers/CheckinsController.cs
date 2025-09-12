@@ -14,6 +14,11 @@ namespace newCRUD.Controllers
             new Checkin { Id = Guid.NewGuid(), BadgeCode = "GYM-111213", Timestamp = DateTime.Now},
             new Checkin { Id = Guid.NewGuid(), BadgeCode = "GYM-141516", Timestamp = DateTime.Now},
         };
-       
+        private static (int page, int limit) NormalizePage(int? page, int? limit)
+        {
+            var p = page.GetValueOrDefault(1); if (p < 1) p = 1;
+            var l = limit.GetValueOrDefault(10); if (l < 1) l = 1; if (l > 100) l = 100;
+            return (p, l);
+        }
     }
 }
