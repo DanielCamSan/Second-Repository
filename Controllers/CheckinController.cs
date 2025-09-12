@@ -9,9 +9,9 @@ namespace FirstExam.Controllers
     {
         private static readonly List<Checkin> _checkins = new()
         {
-            new Checkin { Id = Guid.NewGuid(), BadgeCode = "GYM-12345", Timestamp = DateTime.Now() },
-            new Checkin { Id = Guid.NewGuid(), BadgeCode = "GYM-45788", Timestamp = DateTime.UtcNow() },
-            new Checkin { Id = Guid.NewGuid(), BadgeCode = "GYM-67811", Timestamp = DateTime.UtcNow() }
+            new Checkin { Id = Guid.NewGuid(), BadgeCode = "GYM-12345", Timestamp = DateTime.Now },
+            new Checkin { Id = Guid.NewGuid(), BadgeCode = "GYM-45788", Timestamp = DateTime.Now },
+            new Checkin { Id = Guid.NewGuid(), BadgeCode = "GYM-67811", Timestamp = DateTime.Now }
         };
 
         private static (int page, int limit) NormalizePage(int? page, int? limit)
@@ -30,6 +30,10 @@ namespace FirstExam.Controllers
                 ? src.OrderByDescending(x => prop.GetValue(x))
                 : src.OrderBy(x => prop.GetValue(x));
         }
+
+
+
+
 
     }
 }
