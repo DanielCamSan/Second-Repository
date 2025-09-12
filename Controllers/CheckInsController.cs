@@ -102,7 +102,15 @@ namespace FirstExam.Controllers
             return CreatedAtAction(nameof(GetOne), new { id = checkIn.Id }, checkIn);
 
         }
-        
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = CheckIns.RemoveAll(a => a.Id == id);
+            return removed == 0
+                ? NotFound(new { error = "CheckIn not found", status = 404 })
+                : NoContent();
+        }
 
 
     }
