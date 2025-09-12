@@ -73,11 +73,23 @@ namespace FirstExam.Controllers
         [HttpGet("{id:guid}")]
         public ActionResult<Member> GetOne(Guid id)
         {
-            var user = _members.FirstOrDefault(a => a.Id == id);
-            return user is null
-                ? NotFound(new { error = "User not found", status = 404 })
-                : Ok(user);
+            var member = _members.FirstOrDefault(a => a.Id == id);
+            return member is null
+                ? NotFound(new { error = "Member not found", status = 404 })
+                : Ok(member);
 
+        }
+        [HttpPost]
+        public ActionResult<Member> Create([FromBody] CreateMemberDto dto){
+            var member = new Member
+            {
+                Id = Guid.NewGuid(),
+                FullName = dto.FullName.Trim(),
+                Email = dto.Email,
+                Active=dto.Active
+            };
+            _members.Add(member);
+            return CreatedAtAction(nameof(GetOne), new { id = member.Id }, member);
         }
         
 
