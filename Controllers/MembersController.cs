@@ -70,8 +70,18 @@ namespace FirstExam.Controllers
 
             });
         }
+        [HttpGet("{id:guid}")]
+        public ActionResult<Member> GetOne(Guid id)
+        {
+            var user = _members.FirstOrDefault(a => a.Id == id);
+            return user is null
+                ? NotFound(new { error = "User not found", status = 404 })
+                : Ok(user);
 
+        }
         
+
+
 
     }
 }
