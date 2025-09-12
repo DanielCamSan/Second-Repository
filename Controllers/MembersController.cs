@@ -5,7 +5,7 @@ using System.Reflection;
 namespace FirstExam.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class MembersController : ControllerBase
     {
         private static readonly List<Member> members = new()
