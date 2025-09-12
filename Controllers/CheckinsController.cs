@@ -7,7 +7,7 @@ namespace newCRUD.Controllers
     [Route("api/[controller]")]
     public class CheckinsController : ControllerBase
     {
-        private static readonly List<Checkin> chechins = new()
+        private static readonly List<Checkin> checkins = new()
         {
             new Checkin { Id = Guid.NewGuid(), BadgeCode = "GYM-12345", Timestamp = DateTime.Now},
             new Checkin { Id = Guid.NewGuid(), BadgeCode = "GYM-678910", Timestamp = DateTime.Now},
@@ -30,6 +30,31 @@ namespace newCRUD.Controllers
                 ? src.OrderByDescending(x => prop.GetValue(x))
                 : src.OrderBy(x => prop.GetValue(x));
         }
+        [HttpGet]
+        public IActionResult GetAll(
+           [FromQuery] int? page,
+           [FromQuery] int? limit,
+           [FromQuery] string? sort,
+           [FromQuery] string? order
+       )
+        {
+            var (p, l) = NormalizePage(page, limit);
+
+            IEnumerable<Checkin> query = checkins;
+            // sorting
+            query = OrderByProp(query, sort, order);
+
+            // Pagination
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToList();
+
+            return Ok(new
+            {
+                data,
+                meta = new { page = p, limit = l, total }
+            });
+        }
+
     }
 
 }
