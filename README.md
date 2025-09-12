@@ -69,23 +69,22 @@ All data is stored **in-memory** for demonstration purposes.
 ---
 
 ## ✅ Example Validations
-- **User:** Must have a valid email, name not empty, and age ≥ 16.  
-- **Trainer:** Must include name, specialty, and valid email.  
+- **Member:** Must have a valid email, name not empty, and age ≥ 16.  
 - **Membership:** Must have a type, duration ≥ 1 month, and price ≥ 0.  
-- **Routine:** Must include a name, description, and duration in weeks > 0.  
+- **CheckIn:** Must include a name, description, and duration in weeks > 0.  
 
 ---
 
 ## 🌐 Example URLs
-- Users → `http://localhost:3000/api/v1/users`  
-- Trainers → `http://localhost:3000/api/v1/trainers`  
+- Members → `http://localhost:3000/api/v1/users`  
 - Memberships → `http://localhost:3000/api/v1/memberships`  
-- Routines → `http://localhost:3000/api/v1/routines`  
+- CheckIns → `http://localhost:3000/api/v1/routines`  
 
 ---
 
 ## 🌱 Branches
 - **gym/team10** → Main integration branch for the team.  
+
 
 
 
