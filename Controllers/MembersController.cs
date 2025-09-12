@@ -81,6 +81,9 @@ namespace FirstExam.Controllers
         }
         [HttpPost]
         public ActionResult<Member> Create([FromBody] CreateMemberDto dto){
+            if(!ModelState.IsValid){
+                return ValidationProblem(ModelState);
+            }
             var member = new Member
             {
                 Id = Guid.NewGuid(),
@@ -91,7 +94,28 @@ namespace FirstExam.Controllers
             _members.Add(member);
             return CreatedAtAction(nameof(GetOne), new { id = member.Id }, member);
         }
+        [HttpPut("{id:guid}")]
+        public ActionResult<Member> Update(Guid id, [FromBody] UpdateMemberDto dto){
+            if(!ModelState.IsValid){
+                return ValidationProblem(ModelState);
+            }
+            var index = _members.FindIndex(a => a.Id == id);
+            if (index==-1){
+                return NotFound(new { error = "Member not found", status = 404 });
+            }
+            var updated = new Member
+            {
+                Id = Guid.NewGuid(),
+                FullName = dto.FullName.Trim(),
+                Email = dto.Email,
+                Active = dto.Active
+            };
+            _members[index] = updated;
+            return Ok(updated);
+
+        }
         
+
 
 
 

@@ -35,5 +35,5 @@ public record UpdateMemberDto
     public string Email { get; init; } = string.Empty;
 
     [Required]
-    public bool Active { get; init; }
+    public bool Active { get; init; } 
 }
