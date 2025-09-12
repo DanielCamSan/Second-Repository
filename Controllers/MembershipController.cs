@@ -12,9 +12,9 @@ namespace FirstExam.Controllers
         private static readonly List<Membership> _memberships = new()
         {
             new Membership{id=Guid.NewGuid(), MemberId = Guid.NewGuid(), Endtime = DateTime.Now, StartTime =DateTime.Now, plan = "Pro", status = "Active"},
-            new Membership{id=Guid.NewGuid(), MemberId = Guid.NewGuid(), Endtime = DateTime.Now, StartTime =DateTime.Now, plan = "Pro", status = "Active"},
-            new Membership{id=Guid.NewGuid(), MemberId = Guid.NewGuid(), Endtime = DateTime.Now, StartTime =DateTime.Now, plan = "Pro", status = "Active"},
-            new Membership{id=Guid.NewGuid(), MemberId = Guid.NewGuid(), Endtime = DateTime.Now, StartTime =DateTime.Now, plan = "Pro", status = "Active"}
+            new Membership{id=Guid.NewGuid(), MemberId = Guid.NewGuid(), Endtime = DateTime.Now, StartTime =DateTime.Now, plan = "basic", status = "Expire"},
+            new Membership{id=Guid.NewGuid(), MemberId = Guid.NewGuid(), Endtime = DateTime.Now, StartTime =DateTime.Now, plan = "Premium", status = "Active"},
+            new Membership{id=Guid.NewGuid(), MemberId = Guid.NewGuid(), Endtime = DateTime.Now, StartTime =DateTime.Now, plan = "Pro", status = "Canceled"}
         };
 
         [HttpGet]
