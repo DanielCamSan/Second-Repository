@@ -119,16 +119,3 @@ namespace FirstExam.Controllers
         }
     }
 }
-/*
- * CreateCheckInDto
-UpdateCheckInDto
-
-GET /api/v1/checkins (lista con paginación, orden)
-
-GET /api/v1/checkins/{id}
-
-POST /api/v1/checkins
-
-DELETE /api/v1/checkins/{id}
-
- */
