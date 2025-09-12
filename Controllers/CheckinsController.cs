@@ -79,7 +79,15 @@ namespace newCRUD.Controllers
 
             return CreatedAtAction(nameof(GetOne), new { id = checkinss.Id }, checkinss);
         }
-
+        //DELETE 
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = checkins.RemoveAll(a => a.Id == id);
+            return removed == 0
+                ? NotFound(new { error = "Checkin not found", status = 404 })
+                : NoContent();
+        }
 
     }
 
