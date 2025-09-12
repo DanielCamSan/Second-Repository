@@ -1,4 +1,4 @@
-﻿# 🏋️ Gym API Challenge
+﻿# 🏋️ Gym API Challenge 
 
 ## 🎯 Objetivo
 Construir una API REST **desde cero** en ASP.NET Core que exponga **CRUD** para 3 recursos (Members, Memberships, CheckIns) y listados con:
