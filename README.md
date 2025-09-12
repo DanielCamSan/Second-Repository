@@ -22,39 +22,6 @@ Build a REST API from scratch in **ASP.NET Core** that provides CRUD operations 
   
 ---
 
-## 📦 Models
-Member
-(
-    Guid Id,
-    
-    string Email,
-    
-    string FullName,
-    
-    bool Active
-)
-
-Membership
-(
-    Guid Id,
-    
-    Guid MemberId,
-    
-    string Plan, 
-    
-    DateTime StartDate,
-    
-    DateTime EndDate,
-    
-    string Status        // active | expired | canceled
-)
-
-CheckIn(
-    Guid Id,
-    string BadgeCode,    // example: "GYM-12345"
-    DateTime Timestamp
-)
-
 ### Endpoints
 **Members**
 - GET /api/v1/members → list (pagination + sorting)
@@ -75,6 +42,7 @@ GET /api/v1/checkins → list (pagination + sorting)
 GET /api/v1/checkins/{id} → get by id
 POST /api/v1/checkins → create (201 Created)
 DELETE /api/v1/checkins/{id} → delete (204 No Content)
+
 
 
 
