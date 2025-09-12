@@ -14,7 +14,7 @@ public class Membership
     public DateTime Endtime { get; init; }
 
     [Required, StringLength(100)]
-    public string status { get; init; } = string.Empty;
+    public string status { get; init; } = "Active";
 }
 
 
@@ -33,7 +33,7 @@ public record CreateMembershipDto
     public DateTime Endtime { get; init; }
 
     [Required, StringLength(100)]
-    public string status { get; init; } = string.Empty;
+    public string status { get; init; } = "Active";
 }
 
 public record UpdateMembershipDto
