@@ -30,6 +30,7 @@ namespace newCRUD.Controllers
                 ? src.OrderByDescending(x => prop.GetValue(x))
                 : src.OrderBy(x => prop.GetValue(x));
         }
+        //Get
         [HttpGet]
         public IActionResult GetAll(
            [FromQuery] int? page,
@@ -54,6 +55,16 @@ namespace newCRUD.Controllers
                 meta = new { page = p, limit = l, total }
             });
         }
+        // READ:
+        [HttpGet("{id:guid}")]
+        public ActionResult<Checkin> GetOne(Guid id)
+        {
+            var checkinss = checkins.FirstOrDefault(a => a.Id == id);
+            return checkinss is null
+                ? NotFound(new { error = "Checkin not found", status = 404 })
+                : Ok(checkinss);
+        }
+
 
     }
 
