@@ -5,14 +5,10 @@ using Microsoft.AspNetCore.Http.HttpResults;
 namespace FirstExam.Controllers
 {
     [ApiController]
-    [Route ("api/[Controller]")]
+    [Route ("api/v1/[Controller]")]
     public class MembersController:ControllerBase
     {
         /*
-
-GET /api/v1/members/{id}
-
-POST /api/v1/members
 
 PUT /api/v1/members/{id}
 
@@ -74,7 +70,7 @@ DELETE /api/v1/members/{id}
                 meta = new { page = p, limit = l, total }
             });
         }
-
+        //GET /api/v1/members/{id}
         [HttpGet("{id:guid}")]
         public ActionResult<Member> GetOne(Guid id)
         {
@@ -83,6 +79,22 @@ DELETE /api/v1/members/{id}
                 ? NotFound(new { error = "Member not found", status = 404 })
                 : Ok(member);
         }
+        //POST /api/v1/members
+        [HttpPost]
+        public ActionResult<Member> Create([FromBody] CreateMemberDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
+            var member = new Member
+            {
+                Id = Guid.NewGuid(),
+                Email = dto.Email,
+                FullName = dto.FullName.Trim(),
+                active = dto.active
+            };
+
+            _members.Add(member);
+            return CreatedAtAction(nameof(GetOne), new { id = member.Id }, member);
+        }
     }
 }
