@@ -15,20 +15,18 @@ This project demonstrates the implementation of CRUD operations with DTOs, valid
 ## 🎯 Objective
 Implement CRUD for the following entities using DTOs and validations:
 
-- **Users** (gym clients)  
-- **Trainers**  
+- **Members** (gym clients)    
 - **Memberships**  
-- **Routines**  
+- **CheckIns**  
 
 All data is stored **in-memory** for demonstration purposes.
 
 ---
 
 ## ✨ Features
-- **Users:** Create, Read, Update, Delete client records.  
-- **Trainers:** Manage gym trainers (CRUD).  
-- **Memberships:** Manage membership plans (CRUD).  
-- **Routines:** Manage training routines (CRUD).  
+- **Members:** Create, Read, Update, Delete client records.   
+- **Memberships:** Manage membership plans (CRUD).
+- **CheckIns:** Manage gym trainers (CRUD).  
 - **DTOs (Data Transfer Objects):** Decouple API requests/responses from entities.  
 - **Validations:** Ensure data integrity (required fields, correct formats, ranges).  
 - **Pagination, filtering, and sorting:** All `GET` endpoints support pagination, filtering, sorting, and meta info in the response.  
@@ -36,7 +34,7 @@ All data is stored **in-memory** for demonstration purposes.
 ---
 
 ## 🛠️ Tech Stack
-- **.NET / Java / Node.js (depending on implementation)**  
+- **.NET **  
 - **DataAnnotations** (for validations)  
 - **Postman** (for testing endpoints)  
 
@@ -44,21 +42,12 @@ All data is stored **in-memory** for demonstration purposes.
 
 ## 📌 Endpoints Overview
 
-### 👤 Users
-- `GET /api/v1/users` → List all users (supports pagination, search, age filter, sorting)  
-- `GET /api/v1/users/{id}` → Get user by ID  
-- `POST /api/v1/users` → Register a new user  
-- `PUT /api/v1/users/{id}` → Update user information  
-- `DELETE /api/v1/users/{id}` → Delete a user  
-
----
-
-### 🏋️ Trainers
-- `GET /api/v1/trainers` → List all trainers (supports pagination, search, specialty filter, sorting)  
-- `GET /api/v1/trainers/{id}` → Get trainer by ID  
-- `POST /api/v1/trainers` → Add a new trainer  
-- `PUT /api/v1/trainers/{id}` → Update trainer info  
-- `DELETE /api/v1/trainers/{id}` → Delete a trainer  
+### 👤 Memberes
+- `GET /api/v1/members` → List all members (supports pagination, search, age filter, sorting)  
+- `GET /api/v1/members/{id}` → Get user by ID  
+- `POST /api/v1/membersd` → Register a new member  
+- `PUT /api/v1/members/{id}` → Update member information  
+- `DELETE /api/v1/members/{id}` → Delete a member  
 
 ---
 
@@ -71,13 +60,12 @@ All data is stored **in-memory** for demonstration purposes.
 
 ---
 
-### 🏃 Routines
-- `GET /api/v1/routines` → List all routines (supports pagination, search, duration filters, sorting)  
-- `GET /api/v1/routines/{id}` → Get routine by ID  
-- `POST /api/v1/routines` → Register a new routine  
-- `PUT /api/v1/routines/{id}` → Update routine info  
-- `DELETE /api/v1/routines/{id}` → Delete a routine  
-
+### 🏋️ CheckIns
+- `GET /api/v1/checkins` → List all checkin (supports pagination, search, specialty filter, sorting)  
+- `GET /api/v1/checkins/{id}` → Get checkin by ID  
+- `POST /api/v1/checkins` → Add a new checkin  
+- `PUT /api/v1/checkins/{id}` → Update checkin info  
+- `DELETE /api/v1/checkins/{id}` → Delete a checkin
 ---
 
 ## ✅ Example Validations
@@ -98,6 +86,7 @@ All data is stored **in-memory** for demonstration purposes.
 
 ## 🌱 Branches
 - **gym/team10** → Main integration branch for the team.  
+
 
 
 
