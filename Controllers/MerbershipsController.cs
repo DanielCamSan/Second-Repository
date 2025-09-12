@@ -39,5 +39,32 @@ namespace newCRUD.Controllers
                 ? src.OrderByDescending(x => prop.GetValue(x))
                 : src.OrderBy(x => prop.GetValue(x));
         }
+
+        [HttpGet]
+        public IActionResult GetAll(
+        [FromQuery] int? page,
+        [FromQuery] int? limit,
+        [FromQuery] string? sort,       // example: plan | status | startDate
+        [FromQuery] string? order     // asc | desc
+        )
+        {
+            var (p, l) = NormalizePage(page, limit);
+
+            IEnumerable<Membership> query = _memberships;
+
+
+            // dynamic sorting
+            query = OrderByProp(query, sort, order);
+
+            // pagination
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToList();
+
+            return Ok(new
+            {
+                data,
+                meta = new { page = p, limit = l, total }
+            });
+        }
     }
 };
