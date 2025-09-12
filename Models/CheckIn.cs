@@ -9,7 +9,7 @@ public class CheckIn
     public string BadgeCode { get; set; } = string.Empty;
 
     [Required]
-    public DateTime Timestamp;
+    public DateTime Timestamp { get; set; } = DateTime.Now;
 }
 
 public record CreateCheckinDto
@@ -18,7 +18,7 @@ public record CreateCheckinDto
     public string BadgeCode { get; set; } = string.Empty;
 
     [Required]
-    public DateTime Timestamp;
+    public DateTime Timestamp { get; set; } = DateTime.Now;
 }
 public record UpdateCheckinDto
 {
@@ -26,5 +26,5 @@ public record UpdateCheckinDto
     public string BadgeCode { get; set; } = string.Empty;
 
     [Required]
-    public DateTime Timestamp;
+    public DateTime Timestamp { get; set; } = DateTime.Now;
 }
