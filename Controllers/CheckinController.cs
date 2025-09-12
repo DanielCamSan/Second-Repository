@@ -89,11 +89,30 @@ namespace FirstExam.Controllers
             return CreatedAtAction(nameof(GetOne), new { id = check.Id }, check);
         }
 
-        
+        [HttpPut("{id:guid}")]
+        public ActionResult<Checkin> Update(Guid id, [FromBody] UpdateCheckinDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var index = _checkins.FindIndex(a => a.Id == id);
+            if (index == -1)
+                return NotFound(new { error = "Checkin not found", status = 404 });
+
+            var updated = new Checkin
+            {
+                Id = id,
+                BadgeCode = dto.BadgeCode.Trim(),
+                Timestamp = dto.Timestamp
+            };
+
+            _checkins[index] = updated;
+            return Ok(updated);
+        }
 
 
 
-}
+
+    }
 }
 /*
  * CreateCheckInDto
