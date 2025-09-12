@@ -11,7 +11,7 @@ public class Member
     public string FullName { get; set; } = string.Empty;
 
     [Required]
-    bool Active { get; set; }
+    public bool Active { get; set; }
 }
 
 //DTOs
