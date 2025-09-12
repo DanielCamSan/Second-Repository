@@ -1,13 +1,12 @@
-﻿namespace FirstExam
-{
-    public record Member(
-        Guid Id,
-        string Email,
-        string FullName,
-        bool Active
-    );
+﻿using System;
 
-    public class members
+namespace GymApi.Models
+{
+    public class Member
     {
+        public Guid Id { get; set; }
+        public string Email { get; set; } = default!;
+        public string FullName { get; set; } = default!;
+        public bool Active { get; set; }
     }
 }
