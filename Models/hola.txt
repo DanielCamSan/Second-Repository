@@ -1,6 +1,0 @@
-﻿namespace FirstExam.Models
-{
-    public class hola
-    {
-    }
-}
