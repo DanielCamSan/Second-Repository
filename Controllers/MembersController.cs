@@ -81,7 +81,7 @@ namespace FirstExam.Controllers
             var member = members.FirstOrDefault(m => m.Id == id);
             if (member == null)
             {
-                return NotFound(new { message = "Member not found", status =404});
+                return NotFound(new { message = "Member not found", status = 404 });
             }
             return Ok(member);
         }
