@@ -1,6 +1,6 @@
 # Gym API - Team10 🏋️‍♂️
 
-This project demonstrates the implementation of a **REST API in ASP.NET Core** (work in progress) that exposes CRUD operations and listings for **3 resources**: **Members**, **Memberships**, and **CheckIns**.  
+This project demonstrates the implementation of a **REST API in ASP.NET Core** that exposes CRUD operations and listings for **3 resources**: **Members**, **Memberships**, and **CheckIns**.  
 The implementation includes DTOs, validations, and in-memory persistence for demo purposes.
 
 ---
@@ -71,6 +71,7 @@ GET /api/v1/checkins → list (pagination + sorting)
 GET /api/v1/checkins/{id} → get by id
 POST /api/v1/checkins → create (201 Created)
 DELETE /api/v1/checkins/{id} → delete (204 No Content)
+
 
 
 
