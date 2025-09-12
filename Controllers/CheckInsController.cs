@@ -85,7 +85,7 @@ namespace FirstExam.Controllers
                 : Ok(checkIn);
         }
 
-        /*
+        
         [HttpPost]
 
         public ActionResult<CheckIns> Create([FromBody] CreateCheckInsDto dto)
@@ -102,7 +102,7 @@ namespace FirstExam.Controllers
             return CreatedAtAction(nameof(GetOne), new { id = checkIn.Id }, checkIn);
 
         }
-        */
+        
 
 
     }
