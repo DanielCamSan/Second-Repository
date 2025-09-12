@@ -75,5 +75,14 @@ DELETE /api/v1/members/{id}
             });
         }
 
+        [HttpGet("{id:guid}")]
+        public ActionResult<Member> GetOne(Guid id)
+        {
+            var member = _members.FirstOrDefault(a => a.Id == id);
+            return member is null
+                ? NotFound(new { error = "Member not found", status = 404 })
+                : Ok(member);
+        }
+
     }
 }
