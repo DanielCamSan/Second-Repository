@@ -10,8 +10,6 @@ namespace FirstExam.Controllers
     {
         /*
 
-PUT /api/v1/members/{id}
-
 DELETE /api/v1/members/{id}
          */
 
@@ -96,5 +94,28 @@ DELETE /api/v1/members/{id}
             _members.Add(member);
             return CreatedAtAction(nameof(GetOne), new { id = member.Id }, member);
         }
+        //PUT /api/v1/members/{id}
+        [HttpPut("{id:guid}")]
+        public ActionResult<Member> Update(Guid id, [FromBody] UpdateMemberDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var index = _members.FindIndex(a => a.Id == id);
+            if (index == -1)
+                return NotFound(new { error = "Member not found", status = 404 });
+
+            var updated = new Member
+            {
+                Id=id,
+                Email = dto.Email,
+                FullName = dto.FullName.Trim(),
+                active = dto.active
+            };
+
+            _members[index] = updated;
+            return Ok(updated);
+        }
+
+
     }
 }
