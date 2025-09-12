@@ -11,7 +11,7 @@ public class Member
     public string FullName { get; set; } = string.Empty;
 
     [Required]
-    public bool active { get; set; } 
+    public bool active { get; set; } = true; 
 }
 /*
   Guid Id,
@@ -31,7 +31,7 @@ public record CreateMemberDto
     public string FullName { get; set; } = string.Empty;
 
     [Required]
-    public bool active { get; set; }
+    public bool active { get; set; } = true;
 }
 //UpdateMemberDto
 
@@ -44,5 +44,5 @@ public record UpdateMemberDto
     public string FullName { get; set; } = string.Empty;
 
     [Required]
-    public bool active { get; set; }
+    public bool active { get; set; } = true;
 }
