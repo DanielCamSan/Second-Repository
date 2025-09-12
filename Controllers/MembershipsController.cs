@@ -9,8 +9,9 @@ namespace newCRUD.Controllers
     {
         private static readonly List<Membership> _memberships= new()
         {
-            new Membership { Id = Guid.NewGuid(), MemberId = Guid.NewGuid(), Plan = "Luis Linares", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1), Status = "Active" },
-            new Membership { Id = Guid.NewGuid(), MemberId = Guid.NewGuid(), Plan = "Luis Linares", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1), Status = "Active" }
+            new Membership { Id = Guid.NewGuid(), MemberId = Guid.NewGuid(), Plan = "basic", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1), Status = "active" },
+            new Membership { Id = Guid.NewGuid(), MemberId = Guid.NewGuid(), Plan = "pro", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1), Status = "expired" },
+            new Membership { Id = Guid.NewGuid(), MemberId = Guid.NewGuid(), Plan = "premium", StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(1), Status = "conceled" }
         };
 
         private static (int page, int limit) NormalizePage(int? page, int? limit)
