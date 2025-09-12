@@ -23,3 +23,12 @@ public record CreateMemberDto
     [Required, StringLength(50)]
     public string FullName { get; set; } = string.Empty;
 }
+
+public record UpdateMemberDto
+{
+    public string Email { get; set; } = string.Empty;
+
+    [Required, StringLength(50)]
+    public string FullName { get; set; } = string.Empty;
+}
+

@@ -88,5 +88,29 @@ namespace Members.Controller
             return CreatedAtAction(nameof(GetOne), new { Id = member.Id }, member);
 
         }
+
+        [HttpPut("{id:guid}")]
+        public ActionResult<Member> Update(Guid id, [FromBody] UpdateMemberDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var index = members.FindIndex(a => a.Id == id);
+            if (index == -1) return NotFound(new { error = "Member not found", status = 404 });
+
+            var updated = new Member
+            {
+                Id = id,
+                FullName = dto.FullName,
+                Email = dto.Email,
+            };
+            members[index] = updated;
+            return Ok(updated);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = members.RemoveAll(a => a.Id == id);
+            return removed == 0 ? NotFound(new { error = "Member not found", status = 404 }) : NoContent(); 
+        }
     }
 }
