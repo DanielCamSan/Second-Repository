@@ -32,6 +32,7 @@ namespace FirstExam.Controllers
                 : src.OrderBy(x => prop.GetValue(x));
         }
 
+
         [HttpGet]
         public IActionResult GetAll(
             [FromQuery] int? page,
@@ -62,6 +63,25 @@ namespace FirstExam.Controllers
                 ? NotFound(new { error = "Member not found", status = 404})
                 : Ok(member);
         }
+
+
+        [HttpPost]
+        public ActionResult<Member> Create([FromBody] CreateMemberDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var member = new Member
+            {
+                Id = Guid.NewGuid(),
+                Email = dto.Email.Trim(),
+                FullName = dto.FullName.Trim(),
+                Active = true
+            };
+
+            _members.Add(member);
+            return CreatedAtAction(nameof(GetOne), new { id = member.Id }, member);
+        }
+
+
 
     }
 }
