@@ -20,8 +20,7 @@ namespace newCRUD.Controllers
             new Membership
             {
                 Id = Guid.NewGuid(), MemberId = Guid.Parse("00000000-0000-0000-0000-000000000003"), Plan = "premium",
-                StartDate = new DateTime(2025, 1, 15), EndDate = new DateTime(2026, 1, 15), Status = "active"
-            }
+                StartDate = new DateTime(2025, 1, 15), EndDate = new DateTime(2026, 1, 15), Status = "active" }
         };
         private static (int page, int limit) NormalizePage(int? page, int? limit)
         {
@@ -75,6 +74,26 @@ namespace newCRUD.Controllers
             return membership is null
                 ? NotFound(new { error = "Membership not found", status = 404 })
                 : Ok(membership);
+        }
+
+        // CREATE: POST api/memberships
+        [HttpPost]
+        public ActionResult<Membership> Create([FromBody] CreateMembershipDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var membership = new Membership
+            {
+                Id = Guid.NewGuid(),
+                MemberId = dto.MemberId,
+                Plan = dto.Plan,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                Status = dto.Status
+            };
+
+            _memberships.Add(membership);
+            return CreatedAtAction(nameof(GetOne), new { id = membership.Id }, membership);
         }
 
 
