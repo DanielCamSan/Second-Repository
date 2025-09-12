@@ -37,7 +37,7 @@ namespace GymApi.Controllers
     [Route("api/v1/[controller]")]
     public class MembersController : ControllerBase
     {
-        // Almacenamiento temporal en memoria (para desarrollo)
+
         private static readonly List<Member> _members = new();
         private static readonly object _lock = new();
 
