@@ -23,9 +23,6 @@ Build a REST API from scratch in **ASP.NET Core** that provides CRUD operations 
 ---
 
 ## 📦 Models
-
-### Member
-```csharp
 Member(
     Guid Id,
     string Email,
@@ -33,8 +30,6 @@ Member(
     bool Active
 )
 
-### Membership
-```csharp
 Membership(
     Guid Id,
     Guid MemberId,
@@ -44,8 +39,6 @@ Membership(
     string Status        // active | expired | canceled
 )
 
-### CheckIn
-```csharp
 CheckIn(
     Guid Id,
     string BadgeCode,    // example: "GYM-12345"
@@ -72,6 +65,7 @@ GET /api/v1/checkins → list (pagination + sorting)
 GET /api/v1/checkins/{id} → get by id
 POST /api/v1/checkins → create (201 Created)
 DELETE /api/v1/checkins/{id} → delete (204 No Content)
+
 
 
 
