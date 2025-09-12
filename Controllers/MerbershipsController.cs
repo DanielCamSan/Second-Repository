@@ -120,6 +120,14 @@ namespace newCRUD.Controllers
             return Ok(updated);
         }
 
-
+        // DELETE: DELETE api/memberships/{id}
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = _memberships.RemoveAll(m => m.Id == id);
+            return removed == 0
+                ? NotFound(new { error = "Membership not found", status = 404 })
+                : NoContent();
+        }
     }
 };
