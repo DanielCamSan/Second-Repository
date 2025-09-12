@@ -69,5 +69,30 @@ namespace newCRUD.Controllers
                 ? NotFound(new { error = "CheckIn not found", status = 404 })
                 : Ok(checkIn);
         }
+
+        [HttpPost]
+        public ActionResult<CheckIn> Create([FromBody] CreateCheckInDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var checkIn = new CheckIn
+            {
+                Id = Guid.NewGuid(),
+                BadgeCode = dto.BadgeCode.Trim(),
+                Timestamp = dto.Timestamp
+            };
+
+            _checkIns.Add(checkIn);
+            return CreatedAtAction(nameof(GetOne), new { id = checkIn.Id }, checkIn);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = _checkIns.RemoveAll(c => c.Id == id);
+            return removed == 0
+                ? NotFound(new { error = "CheckIn not found", status = 404 })
+                : NoContent();
+        }
     }
 }
