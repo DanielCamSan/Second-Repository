@@ -91,5 +91,96 @@ namespace GymApi.Controllers
                 });
             }
         }
+
+        [HttpGet("{id:guid}")]
+        public ActionResult<Member> GetMember(Guid id)
+        {
+            lock (_lock)
+            {
+                var member = _members.FirstOrDefault(m => m.Id == id);
+                if (member == null)
+                {
+                    return NotFound(new { error = "Member not found", status = 404 });
+                }
+                return Ok(member);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult<Member> CreateMember([FromBody] CreateMemberDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            lock (_lock)
+            {
+                // Verificar si el email ya existe
+                if (_members.Any(m => m.Email.Equals(dto.Email, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError("Email", "Email already exists");
+                    return ValidationProblem(ModelState);
+                }
+
+                var member = new Member
+                {
+                    Id = Guid.NewGuid(),
+                    Email = dto.Email,
+                    FullName = dto.FullName,
+                    Active = dto.Active
+                };
+
+                _members.Add(member);
+                return CreatedAtAction(nameof(GetMember), new { id = member.Id }, member);
+            }
+        }
+
+        [HttpPut("{id:guid}")]
+        public ActionResult<Member> UpdateMember(Guid id, [FromBody] UpdateMemberDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            lock (_lock)
+            {
+                var member = _members.FirstOrDefault(m => m.Id == id);
+                if (member == null)
+                {
+                    return NotFound(new { error = "Member not found", status = 404 });
+                }
+
+                // Verificar si el email ya existe en otro member
+                if (_members.Any(m => m.Id != id && m.Email.Equals(dto.Email, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError("Email", "Email already exists");
+                    return ValidationProblem(ModelState);
+                }
+
+                member.Email = dto.Email;
+                member.FullName = dto.FullName;
+                member.Active = dto.Active;
+
+                return Ok(member);
+            }
+        }
+
+        [HttpDelete("{id:guid}")]
+        public ActionResult DeleteMember(Guid id)
+        {
+            lock (_lock)
+            {
+                var member = _members.FirstOrDefault(m => m.Id == id);
+                if (member == null)
+                {
+                    return NotFound(new { error = "Member not found", status = 404 });
+                }
+
+                _members.Remove(member);
+                return NoContent();
+            }
+        }
     }
 }
