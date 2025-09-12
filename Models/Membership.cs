@@ -4,10 +4,11 @@ public class Membership
 {
     public Guid Id { get; set; }
     public Guid MemberId { get; set; }
-
+    [Required, StringLength(10)]
     public string Plan { get; set; } = string.Empty;
     public DateTime StartDate = DateTime.Now;
     public DateTime EndDate = DateTime.Now;
+    [Required, StringLength(15)]
     public string Status { get; set; } = string.Empty;
 }
 
