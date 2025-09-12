@@ -66,5 +66,17 @@ namespace newCRUD.Controllers
                 meta = new { page = p, limit = l, total }
             });
         }
+
+        // READ: GET api/memberships/{id}
+        [HttpGet("{id:guid}")]
+        public ActionResult<Membership> GetOne(Guid id)
+        {
+            var membership = _memberships.FirstOrDefault(a => a.Id == id);
+            return membership is null
+                ? NotFound(new { error = "Membership not found", status = 404 })
+                : Ok(membership);
+        }
+
+
     }
 };
