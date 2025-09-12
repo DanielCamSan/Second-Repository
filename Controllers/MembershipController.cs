@@ -34,5 +34,13 @@ namespace FirstExam.Controllers
                 : src.OrderBy(x => prop.GetValue(x));
         }
 
+        [HttpGet("{id:guid}")]
+        public ActionResult<Membership> GetOne(Guid id)
+        {
+            var membership = _memberships.FirstOrDefault(a => a.id == id);
+            return membership is null
+                ? NotFound(new { error = "Membership not found", status = 404 })
+                : Ok(membership);
+        }
     }
 }
