@@ -5,6 +5,6 @@ namespace FirstExam.DTOs
     public class UpdateCheckInDto
     {
         [Required(ErrorMessage = "BadgeCode is required")]
-        public string BadgeCode { get; set; }
+        public string BadgeCode { get; set; } = string.Empty;
     }
 }
