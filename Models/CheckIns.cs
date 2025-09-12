@@ -16,7 +16,6 @@ public record CreateCheckInsDto
     [Required, StringLength(100)]
     public string BadgeCode { get; set; } = string.Empty;
 
-    [Required, StringLength(100)]
     public DateTime Timestamp { get; set; } = DateTime.Now;
 
 }
@@ -26,7 +25,6 @@ public record UpdateCheckInsDto
     [Required, StringLength(100)]
     public string BadgeCode { get; set; } = string.Empty;
 
-    [Required, StringLength(100)]
     public DateTime Timestamp { get; set; } = DateTime.Now;
 
 }

@@ -33,14 +33,65 @@ namespace FirstExam.Controllers
             if (string.IsNullOrWhiteSpace(sort)) return src;
             var prop = typeof(T).GetProperty(sort, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if(prop == null) return src;
-            if (string.Equals(order, "desc", StringComparison.OrdinalIgnoreCase)
-                ? src.OrderByDescending(x => prop.GetValue(x))
-                : src.OrderBy(x => prop.GetValue(x));
+            if(string.Equals(order, "desc", StringComparison.OrdinalIgnoreCase))
+            {
+                return src.OrderByDescending(x => prop.GetValue(x, null));
+            }
+            else
+            {
+                return src.OrderBy(x => prop.GetValue(x, null));
+            }
+        }
+
+
+        [HttpGet]
+        public IActionResult GetAll(
+            [FromQuery] int? page,
+            [FromQuery] int? limit,
+            [FromQuery] string? sort,
+            [FromQuery] string? order,
+            [FromQuery] string? q,
+            [FromQuery] string? name)
+        {
+            var (p, l) = NormalizePage(page, limit);
+            IEnumerable<CheckIns> query = CheckIns;
+
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                query = query.Where(x => x.BadgeCode.Contains(q, StringComparison.OrdinalIgnoreCase));
+            }
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                query = query.Where(x => x.BadgeCode.Equals(name, StringComparison.OrdinalIgnoreCase));
+            }
+
+            query = OrderByProp(query, sort, order);
+
+            var total = query.Count();
+            var items = query.Skip((p - 1) * l).Take(l).ToList();
+
+            return Ok(new{total, page = p, limit = l, items});
+
+
+
+
+
+
+
+
 
 
         }
 
 
 
+
+
+
+
+
+
     }
 }
+
+
