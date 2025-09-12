@@ -30,8 +30,38 @@ namespace FirstExam.Controllers
                 ? src.OrderByDescending(x => prop.GetValue(x))
                 : src.OrderBy(x => prop.GetValue(x));
         }
+        
+        [HttpGet]
+        public IActionResult GetAll(
+            [FromQuery] int? page,
+            [FromQuery] int? limit,
+            [FromQuery] string? sort,
+            [FromQuery] string? order,
+            [FromQuery] string? q,     
+            [FromQuery] string? genres  
+        )
+        {
+            var (p, l) = NormalizePage(page, limit);
+
+            IEnumerable<Checkin> query = _checkins;
+
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                query = query.Where(a => a.BadgeCode.Contains(q, StringComparison.OrdinalIgnoreCase));
+            }
 
 
+            query = OrderByProp(query, sort, order);
+
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToList();
+
+            return Ok(new
+            {
+                data,
+                meta = new { page = p, limit = l, total }
+            });
+        }
 
 
 
