@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Globalization;
+using Microsoft.AspNetCore.Http.HttpResults;
 namespace FirstExam.Controllers
 {
     [ApiController]
     [Route ("api/[Controller]")]
-    public class MembersController
+    public class MembersController:ControllerBase
     {
         /*
 
@@ -43,6 +44,36 @@ DELETE /api/v1/members/{id}
                 : src.OrderBy(x => prop.GetValue(x));
         }
         // GET /api/v1/members (lista con paginación, orden)
+        [HttpGet]
+        public IActionResult GetAll(
+           [FromQuery] int? page,
+           [FromQuery] int? limit,
+           [FromQuery] string? sort,     // ejemplo: name | species | age
+           [FromQuery] string? order,    // asc | desc
+           [FromQuery] string? q       // búsqueda por nombre o email
+       )
+        {
+            var (p, l) = NormalizePage(page, limit);
+
+            IEnumerable<Member> query = _members;
+
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                query = query.Where(a =>
+                    a.Email.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+                    a.FullName.Contains(q, StringComparison.OrdinalIgnoreCase));
+            }
+            query = OrderByProp(query, sort, order);
+
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToList();
+
+            return Ok(new
+            {
+                data,
+                meta = new { page = p, limit = l, total }
+            });
+        }
 
     }
 }
