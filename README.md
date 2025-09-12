@@ -54,7 +54,7 @@ CheckIn(
     string BadgeCode,    // código/tarjeta del socio (ej: "GYM-12345")
     DateTime Timestamp
 )
-```
+```1
 DTOS OBLIGATORIOS:
 - CreateMemberDto
 - UpdateMemberDto
