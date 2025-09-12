@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FirstExam.Models;
-using static FirstExam.Models.Members;
 using System.Reflection;
+
 namespace FirstExam.Controllers
 {
     [ApiController]
@@ -10,25 +10,31 @@ namespace FirstExam.Controllers
     {
         private static readonly List<Members> _members = new()
         {
-            new Members {Id = Guid.NewGuid(), Email = "fabio@ucb.com", Name = "Fabio Garcia Meza", Active = true },
-            new Members {Id = Guid.NewGuid(), Email = "joaco@ucb.com", Name = "Joaquin Elias Soria", Active = true },
-            new Members {Id = Guid.NewGuid(), Email = "kat@ucb.com", Name = "Katherine", Active = true }
+            new Members { Id = Guid.NewGuid(), Email = "fabio@ucb.com", Name = "Fabio Garcia Meza", Active = true },
+            new Members { Id = Guid.NewGuid(), Email = "joaco@ucb.com", Name = "Joaquin Elias Soria", Active = true },
+            new Members { Id = Guid.NewGuid(), Email = "kat@ucb.com", Name = "Katherine", Active = true }
         };
+
+        private static readonly HashSet<string> AllowedSorts =
+            new(StringComparer.OrdinalIgnoreCase) { "Id", "Email", "Name", "Active" };
+
         private static (int page, int limit) NormalizePage(int? page, int? limit)
         {
             var p = page.GetValueOrDefault(1); if (p < 1) p = 1;
             var l = limit.GetValueOrDefault(10); if (l < 1) l = 1; if (l > 100) l = 100;
             return (p, l);
         }
+
         private static IEnumerable<T> OrderByProp<T>(IEnumerable<T> src, string? sort, string? order)
         {
-            if (string.IsNullOrWhiteSpace(sort)) return src;
+            if (string.IsNullOrWhiteSpace(sort) || !AllowedSorts.Contains(sort)) return src;
             var prop = typeof(T).GetProperty(sort, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if (prop is null) return src;
             return string.Equals(order, "desc", StringComparison.OrdinalIgnoreCase)
                 ? src.OrderByDescending(x => prop.GetValue(x))
                 : src.OrderBy(x => prop.GetValue(x));
         }
+
         [HttpGet]
         public IActionResult GetAll(
             [FromQuery] int? page,
@@ -66,16 +72,21 @@ namespace FirstExam.Controllers
                 meta = new { page = p, limit = l, total }
             });
         }
+
         [HttpGet("{id:guid}")]
         public ActionResult<Members> GetOne(Guid id)
         {
             var member = _members.FirstOrDefault(m => m.Id == id);
             return member is null ? NotFound(new { error = "Member not found", status = 404 }) : Ok(member);
         }
+
         [HttpPost]
         public ActionResult<Members> Create([FromBody] CreateMemberDto dto)
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            if (_members.Any(m => m.Email.Equals(dto.Email.Trim(), StringComparison.OrdinalIgnoreCase)))
+                return Conflict(new { error = "Email already exists", status = 409 });
 
             var member = new Members
             {
@@ -84,9 +95,11 @@ namespace FirstExam.Controllers
                 Name = dto.Name.Trim(),
                 Active = dto.IsActive
             };
+
             _members.Add(member);
             return CreatedAtAction(nameof(GetOne), new { id = member.Id }, member);
         }
+
         [HttpPut("{id:guid}")]
         public ActionResult<Members> Update(Guid id, [FromBody] UpdateMemberDto dto)
         {
@@ -94,6 +107,10 @@ namespace FirstExam.Controllers
 
             var index = _members.FindIndex(m => m.Id == id);
             if (index == -1) return NotFound(new { error = "Member not found", status = 404 });
+
+            if (_members.Any(m => m.Id != id &&
+                                  m.Email.Equals(dto.Email.Trim(), StringComparison.OrdinalIgnoreCase)))
+                return Conflict(new { error = "Email already exists", status = 409 });
 
             var updated = new Members
             {
@@ -106,6 +123,7 @@ namespace FirstExam.Controllers
             _members[index] = updated;
             return Ok(updated);
         }
+
         [HttpDelete("{id:guid}")]
         public IActionResult Delete(Guid id)
         {
