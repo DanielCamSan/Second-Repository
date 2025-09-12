@@ -13,7 +13,7 @@ namespace FirstExam.Models
 
     }
 
-    public record CreateMembershipDTO
+    public record CreateCheckInDTO
     {
         public Guid Id { get; set; }
 
@@ -23,7 +23,7 @@ namespace FirstExam.Models
         public DateTime Timestamp { get; set; }
     }
 
-    public record UpdateMembershipDTO
+    public record UpdateCheckInDTO
     {
         public Guid Id { get; set; }
 
