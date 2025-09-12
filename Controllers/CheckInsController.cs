@@ -72,26 +72,56 @@ namespace FirstExam.Controllers
 
             return Ok(new{total, page = p, limit = l, items});
 
-
-
-
-
-
-
-
-
-
         }
 
 
+        [HttpGet("{id:guid}")]
 
+        public ActionResult<CheckIns> GetOne(Guid id)
+        {
+            var checkIn = CheckIns.FirstOrDefault(a => a.Id == id);
+            return checkIn is null
+                ? NotFound(new { error = "CheckIn not found", status = 404 })
+                : Ok(checkIn);
+        }
 
+        /*
+        [HttpPost]
 
+        public ActionResult<CheckIns> Create([FromBody] CreateCheckInsDto dto)
+        {
+            if(!ModelState.IsValid) return ValidationProblem(ModelState);
 
+            var checkIn = new CheckIns
+            {
+                Id = Guid.NewGuid(),
+                BadgeCode = dto.BadgeCode,
+                Timestamp = dto.Timestamp
+            };
+            CheckIns.Add(checkIn);
+            return CreatedAtAction(nameof(GetOne), new { id = checkIn.Id }, checkIn);
 
+        }
+        */
 
 
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
