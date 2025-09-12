@@ -122,6 +122,17 @@ namespace FirstExam.Controllers
             return Ok(member);
         }
 
+        [HttpDelete("{id:guid}")]
+        public ActionResult Delete(Guid id)
+        {
+            var member = members.FirstOrDefault(m => m.Id == id);
+            if (member == null)
+            {
+                return NotFound(new { message = "Member not found", status = 404 });
+            }
+            members.Remove(member);
+            return NoContent();
+        }
 
 
     }
