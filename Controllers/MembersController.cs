@@ -8,10 +8,7 @@ namespace FirstExam.Controllers
     [Route ("api/v1/[Controller]")]
     public class MembersController:ControllerBase
     {
-        /*
-
-DELETE /api/v1/members/{id}
-         */
+        
 
         private static readonly List<Member> _members = new()
         {
@@ -115,7 +112,15 @@ DELETE /api/v1/members/{id}
             _members[index] = updated;
             return Ok(updated);
         }
-
+        //DELETE /api/v1/members/{id}
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = _members.RemoveAll(a => a.Id == id);
+            return removed == 0
+                ? NotFound(new { error = "Member not found", status = 404 })
+                : NoContent();
+        }
 
     }
 }
