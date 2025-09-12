@@ -1,89 +1,76 @@
-# Gym Team10 🏋️‍♂️
+# Gym API - Team10 🏋️‍♂️
 
-This project demonstrates the implementation of CRUD operations with DTOs, validations, and in-memory persistence for a **gym management API**.
+This project demonstrates the implementation of a **REST API in ASP.NET Core** (work in progress) that exposes CRUD operations and listings for **3 resources**: **Members**, **Memberships**, and **CheckIns**.  
+The implementation includes DTOs, validations, and in-memory persistence for demo purposes.
 
 ---
 
 ## 👥 Team Members
-- Member 1: ELIAS SORIA JOAQUIN MATEO  
-- Member 2: GARCIA MEZA OLMOS FABIO ADRIAN  
-- Member 3: MONTAÑO MEJIA KATHERINE FABIANA  
-- Member 4: PITA VARGAS ARIANA AYLEN  
+- Elias Soria Joaquin Mateo  
+- Garcia Meza Olmos Fabio Adrian  
+- Montaño Mejia Katherine Fabiana  
+- Pita Vargas Ariana Aylen  
 
 ---
 
 ## 🎯 Objective
-Implement CRUD for the following entities using DTOs and validations:
+Build a REST API from scratch in **ASP.NET Core** that provides CRUD operations for 3 resources (Members, Memberships, CheckIns) and listings with:
 
-- **Members** (gym clients)    
-- **Memberships**  
-- **CheckIns**  
+- **Pagination:** `page`, `limit`  
+- **Sorting:** `sort`, `order`  
+- **Standardized response:** `{ data, meta }`
 
-All data is stored **in-memory** for demonstration purposes.
-
----
-
-## ✨ Features
-- **Members:** Create, Read, Update, Delete client records.   
-- **Memberships:** Manage membership plans (CRUD).
-- **CheckIns:** Manage gym trainers (CRUD).  
-- **DTOs (Data Transfer Objects):** Decouple API requests/responses from entities.  
-- **Validations:** Ensure data integrity (required fields, correct formats, ranges).  
-- **Pagination, filtering, and sorting:** All `GET` endpoints support pagination, filtering, sorting, and meta info in the response.  
+⚠️ CORS, rate limiting, and additional filters are **not required**.
 
 ---
 
-## 🛠️ Tech Stack
-- **.NET **  
-- **DataAnnotations** (for validations)  
-- **Postman** (for testing endpoints)  
+## 📦 Models
 
----
+### Member
+```csharp
+Member(
+    Guid Id,
+    string Email,
+    string FullName,
+    bool Active
+)
 
-## 📌 Endpoints Overview
+Membership(
+    Guid Id,
+    Guid MemberId,
+    string Plan,         // basic | pro | premium
+    DateTime StartDate,
+    DateTime EndDate,
+    string Status        // active | expired | canceled
+)
 
-### 👤 Memberes
-- `GET /api/v1/members` → List all members (supports pagination, search, age filter, sorting)  
-- `GET /api/v1/members/{id}` → Get user by ID  
-- `POST /api/v1/membersd` → Register a new member  
-- `PUT /api/v1/members/{id}` → Update member information  
-- `DELETE /api/v1/members/{id}` → Delete a member  
+CheckIn(
+    Guid Id,
+    string BadgeCode,    // example: "GYM-12345"
+    DateTime Timestamp
+)
 
----
 
-### 🎟 Memberships
-- `GET /api/v1/memberships` → List all memberships (supports pagination, price/duration filters, sorting)  
-- `GET /api/v1/memberships/{id}` → Get membership by ID  
-- `POST /api/v1/memberships` → Create a new membership  
-- `PUT /api/v1/memberships/{id}` → Update membership plan  
-- `DELETE /api/v1/memberships/{id}` → Remove membership  
+🔌 Endpoints
+**Members**
+- GET /api/v1/members → list (pagination + sorting)
+- GET /api/v1/members/{id} → get by id
+- POST /api/v1/members → create (201 Created)
+- PUT /api/v1/members/{id} → update (200 OK)
+- DELETE /api/v1/members/{id} → delete (204 No Content)
 
----
+**Memberships**
+GET /api/v1/memberships → list (pagination + sorting)
+GET /api/v1/memberships/{id} → get by id
+POST /api/v1/memberships → create (201 Created)
+PUT /api/v1/memberships/{id} → update (200 OK)
+DELETE /api/v1/memberships/{id} → delete (204 No Content)
 
-### 🏋️ CheckIns
-- `GET /api/v1/checkins` → List all checkin (supports pagination, search, specialty filter, sorting)  
-- `GET /api/v1/checkins/{id}` → Get checkin by ID  
-- `POST /api/v1/checkins` → Add a new checkin   
-- `DELETE /api/v1/checkins/{id}` → Delete a checkin
----
-
-## ✅ Example Validations
-- **Member:** Must have a valid email, name not empty, and age ≥ 16.  
-- **Membership:** Must have a type, duration ≥ 1 month, and price ≥ 0.  
-- **CheckIn:** Must include a name, description, and duration in weeks > 0.  
-
----
-
-## 🌐 Example URLs
-- Members → `http://localhost:3000/api/v1/users`  
-- Memberships → `http://localhost:3000/api/v1/memberships`  
-- CheckIns → `http://localhost:3000/api/v1/routines`  
-
----
-
-## 🌱 Branches
-- **gym/team10** → Main integration branch for the team.  
-
+**CheckIns**
+GET /api/v1/checkins → list (pagination + sorting)
+GET /api/v1/checkins/{id} → get by id
+POST /api/v1/checkins → create (201 Created)
+DELETE /api/v1/checkins/{id} → delete (204 No Content)
 
 
 
