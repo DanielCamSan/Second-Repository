@@ -7,15 +7,15 @@ public class Checkin
     [Required, StringLength(100)]
     public string BadgeCode { get; set; } = string.Empty;
 
-    public  DateTime Timestap{ get; set; } 
+    public  DateTime Timestamp{ get; set; } 
 }
-// first DTO
+// first DTO create 
 public record CreateCheckInDto
 {
     [Required, StringLength(100)]
     public string BadgeCode { get; init; } = string.Empty;
 }
-
+// Second DTO update
 public record UpdateCheckInDto
 {
     [Required, StringLength(100)]
