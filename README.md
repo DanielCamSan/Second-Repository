@@ -63,8 +63,7 @@ All data is stored **in-memory** for demonstration purposes.
 ### 🏋️ CheckIns
 - `GET /api/v1/checkins` → List all checkin (supports pagination, search, specialty filter, sorting)  
 - `GET /api/v1/checkins/{id}` → Get checkin by ID  
-- `POST /api/v1/checkins` → Add a new checkin  
-- `PUT /api/v1/checkins/{id}` → Update checkin info  
+- `POST /api/v1/checkins` → Add a new checkin   
 - `DELETE /api/v1/checkins/{id}` → Delete a checkin
 ---
 
@@ -84,6 +83,7 @@ All data is stored **in-memory** for demonstration purposes.
 
 ## 🌱 Branches
 - **gym/team10** → Main integration branch for the team.  
+
 
 
 
