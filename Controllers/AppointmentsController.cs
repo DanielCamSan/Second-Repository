@@ -69,5 +69,41 @@ namespace FirstExam.Controllers
             _appointments.Remove(appointment);
             return NoContent();
         }
+
+        [HttpGet]
+        public IActionResult GetAll(
+        [FromQuery] int page = 1,
+        [FromQuery] int limit = 10,
+        [FromQuery] string sort = "scheduledAt",
+        [FromQuery] string order = "asc")
+        {
+            if (page < 1) page = 1;
+            if (limit < 1) limit = 10;
+            if (limit > 100) limit = 100;
+            order = order.ToLower() == "desc" ? "desc" : "asc";
+
+            var query = _appointments.AsQueryable();
+
+            query = sort switch
+            {
+                "scheduledAt" => order == "asc" ? query.OrderBy(a => a.ScheduledAt) : query.OrderByDescending(a => a.ScheduledAt),
+                "status" => order == "asc" ? query.OrderBy(a => a.Status) : query.OrderByDescending(a => a.Status),
+                _ => query.OrderBy(a => a.Id)
+            };
+
+            var total = query.Count();
+            var items = query.Skip((page - 1) * limit).Take(limit).ToList();
+
+            return Ok(new
+            {
+                data = items,
+                meta = new
+                {
+                    page,
+                    limit,
+                    total
+                }
+            });
+        }
     }
 }
