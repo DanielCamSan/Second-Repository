@@ -108,5 +108,28 @@ namespace FirstExam.Controllers
             pets.Add(pet);
             return CreatedAtAction(nameof(GetOne), new { id = pet.Id });
         }
+
+        [HttpPut("{id:guid}")]
+        public ActionResult<Pet> Update(Guid id, [FromBody] UpdatePetDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var index = pets.FindIndex(a => a.Id == id);
+            if (index == -1)
+                return NotFound(new { error = "Pet not found", status = 404 });
+            var updated = new Pet()
+            {
+                Id = id,
+                OwnerId = dto.OwnerId,
+                Name = dto.Name.Trim(),
+                Species = dto.Species.Trim(),
+                Breed = dto.Breed.Trim(),
+                BirthDate = dto.BirthDate,
+                sex = dto.sex.Trim(),
+                WeightKg = dto.WeightKg
+            };
+            pets[index] = updated;
+            return Ok(updated);
+
+        }
     }
 }
