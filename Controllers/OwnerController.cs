@@ -33,6 +33,40 @@ namespace FirstExam.Controllers
                 src.OrderBy(x => prop.GetValue(x, null));
         }
 
+        [HttpGet]
+        public IActionResult GetAll(
+            [FromQuery] int? page,
+            [FromQuery] int? limit,
+            [FromQuery] string? sort,
+            [FromQuery] string? order,
+            [FromQuery] string? q,
+            [FromQuery] string? filter
+        )
+        {
+            var (p, l) = NormalizePage(page, limit);
+            IEnumerable<Owner> query = _owners;
+
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                query = query.Where(x =>
+                    x.Email.ToLower().Contains(q, StringComparison.OrdinalIgnoreCase) ||
+                    x.FullName.ToLower().Contains(q, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                query = query.Where(a => a.Equals(filter));
+            }
+
+            query = OrderByProp(query, sort, order);
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToList();
+
+            return Ok(new { data, meta = new { page = p, limit = l, total } });
+
+        }
+
 
     }
 }
