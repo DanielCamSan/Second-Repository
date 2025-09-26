@@ -4,7 +4,7 @@ namespace Appointments.Controller
 
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class AppointmentsController:ControllerBase
     {
         public static readonly List<Appointment> _appointments = new()
@@ -73,9 +73,12 @@ namespace Appointments.Controller
             var appointment = new Appointment
             {
                 Id = Guid.NewGuid(),
-                PetId = Guid.NewGuid(),
-                ScheduledAt = DateTime.Now, 
+                PetId = dto.PetId,
+                ScheduledAt = dto.ScheduledAt, 
                 Reason = dto.Reason,
+                Status = dto.Status,
+                Notes = dto.Notes
+
             };
             _appointments.Add(appointment);
             return CreatedAtAction(nameof(getById), new { id = appointment.Id }, appointment);
