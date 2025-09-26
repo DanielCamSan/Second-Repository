@@ -59,5 +59,15 @@ namespace FirstExam.Controllers
             return Ok(appointment);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            var appointment = _appointments.FirstOrDefault(a => a.Id == id);
+            if (appointment == null)
+                return NotFound(new { error = "Appointment not found", status = 404 });
+
+            _appointments.Remove(appointment);
+            return NoContent();
+        }
     }
 }
