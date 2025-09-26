@@ -1,5 +1,6 @@
 ﻿using FirstExam.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
@@ -40,6 +41,36 @@ namespace FirstExam.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult GetAll(
+            [FromQuery] int page, [FromQuery] int? limit,
+            [FromQuery] string? sort, [FromQuery]string? order,
+            [FromQuery] string? q, [FromQuery] string? names )
+
+        {
+            var (p, l) = NormalizaPage(page, limit);
+            IEnumerable<Owner> query = _owners;
+            if(!string.IsNullOrWhiteSpace(q))
+            {
+                query = query.Where(o =>
+                o.Email.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+                o.FullName.Contains(q, StringComparison.OrdinalIgnoreCase);
+            }
+
+            if( !string.IsNullOrWhiteSpace(names))
+            {
+                query = query.Where(o => o.FullName.Equals(names, StringComparison.OrdinalIgnoreCase));
+            }
+            query = OrderByProp(query, sort, order);
+
+            var total = query.Count();
+            var data = query.Skip((p-1)*l).Take(1).ToList();
+            return Ok(new
+            {
+                data,
+                meta = new { page = p, limit = l, total }
+            });
+        }
 
 
     }
