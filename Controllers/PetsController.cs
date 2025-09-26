@@ -32,7 +32,7 @@ namespace FirstExam.Controllers
                 : src.OrderBy(x => prop.GetValue(x));
         }
 
-        /*
+        
         [HttpGet]
         public IActionResult GetAll(
             [FromQuery] int? page,
@@ -56,7 +56,7 @@ namespace FirstExam.Controllers
 
                 query = query.Where(a =>
                     a.Name.Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                    (esNumero && a. == dur) ||
+                    (esNumero && a.WeightKg == dur) ||
                     (esFecha && a.BirthData.Date == dt.Date)
                 );
             }
@@ -77,7 +77,7 @@ namespace FirstExam.Controllers
                 meta = new { page = p, limit = l, total }
             });
         }
-        */
+        
 
 
 
