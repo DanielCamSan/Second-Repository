@@ -1,10 +1,20 @@
+using System.Threading.RateLimiting;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", pollicy =>
+    pollicy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 

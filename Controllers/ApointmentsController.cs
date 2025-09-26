@@ -30,6 +30,7 @@ namespace FirstExam.Controllers
             ? src.OrderByDescending(x=> prop.GetValue(x))
             : src.OrderBy(x=> prop.GetValue(x));
         }
+        /*
         [HttpGet]
         public IActionResult GetAll(
             [FromQuery] int? page, [FromQuery] int? limit,
@@ -58,7 +59,7 @@ namespace FirstExam.Controllers
                 meta = new { page = p, limit = l, total }
             });
         }
-
+        */
             [HttpGet("{id:guid}")]
             public ActionResult<Apointment>GetOne(Guid id) 
             {
