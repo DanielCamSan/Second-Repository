@@ -6,8 +6,8 @@ using System.Reflection;
 namespace FirstExam.Controllers
 {
     [ApiController]
-    [Route("api/[Controller]")]
-    public class AppointmentController : ControllerBase
+    [Route("api/v1/[Controller]")]
+    public class AppointmentsController : ControllerBase
     {
         private static readonly List<Appointment> _appointments = new(){
                 new Appointment{Id=Guid.NewGuid(),PetId=Guid.NewGuid(),ScheduledAt=DateTime.Now, Reason="vaccinate",Status="scheduled" },
@@ -71,7 +71,7 @@ namespace FirstExam.Controllers
             };
             if (dto.Notes != null) { appointment.Notes = dto.Notes; }
             _appointments.Add(appointment);
-            return CreatedAtAction(nameof(GetOne), new { id = appointment.Id }, appointment};
+            return CreatedAtAction(nameof(GetById), new { id = appointment.Id }, appointment);
         }
 
         [HttpPut("{Id:Guid}")]
