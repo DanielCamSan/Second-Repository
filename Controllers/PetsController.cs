@@ -9,11 +9,11 @@ namespace FirstExam.Controllers
     {
         private static readonly List<Pet> _pets = new()
     {
-    new Pet { Id = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "Preto", Species = "dog", Breed = "Sharpei", Birthdate = new DateTime(2020, 5, 12), Sex = "male", WeigthKg = 22.5m },
-    new Pet { Id = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "Mimi", Species = "cat", Breed = "Siamese", Birthdate = new DateTime(2019, 8, 20), Sex = "female", WeigthKg = 4.28m },
-    new Pet { Id = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "Kiko", Species = "bird", Breed = "Parrot", Birthdate = new DateTime(2021, 1, 15), Sex = "male", WeigthKg = 0.3m },
-    new Pet { Id = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "Lola", Species = "dog", Breed = "Cooker", Birthdate = new DateTime(2018, 11, 5), Sex = "female", WeigthKg = 28.0m },
-    new Pet { Id = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "Spike", Species = "reptile", Breed = "Iguana", Birthdate = new DateTime(2022, 3, 30), Sex = "male", WeigthKg = 5.1m }
+    new Pet { Id = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "Preto", Species = "dog", Breed = "Sharpei", Birthdate = new DateTime(2020, 5, 12), Sex = "male", WeightKg = 22.5m },
+    new Pet { Id = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "Mimi", Species = "cat", Breed = "Siamese", Birthdate = new DateTime(2019, 8, 20), Sex = "female", WeightKg = 4.28m },
+    new Pet { Id = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "Kiko", Species = "bird", Breed = "Parrot", Birthdate = new DateTime(2021, 1, 15), Sex = "male", WeightKg = 0.3m },
+    new Pet { Id = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "Lola", Species = "dog", Breed = "Cooker", Birthdate = new DateTime(2018, 11, 5), Sex = "female", WeightKg = 28.0m },
+    new Pet { Id = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "Spike", Species = "reptile", Breed = "Iguana", Birthdate = new DateTime(2022, 3, 30), Sex = "male", WeightKg = 5.1m }
         };
         private static (int page, int limit) NormalizePage(int? page, int? limit)
         {
@@ -32,6 +32,7 @@ namespace FirstExam.Controllers
                 ? src.OrderByDescending(x => prop.GetValue(x))
                 : src.OrderBy(x => prop.GetValue(x));
         }
+
         [HttpGet]
         public IActionResult GetAll(
             [FromQuery] int? page, 
@@ -52,6 +53,70 @@ namespace FirstExam.Controllers
             });
         }
 
+        [HttpGet("{id:guid}")]
+        public IActionResult GetOne(Guid id)
+        {
+            var pet = _pets.FirstOrDefault(p => p.Id == id);
+            return pet is null
+                ? NotFound(new { error = "Pet not found", status = 404 })
+                : Ok(pet);
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreatePetDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var pet = new Pet
+            {
+                Id = Guid.NewGuid(),
+                OwnerId = dto.OwnerId,
+                Name = dto.Name.Trim(),
+                Species = dto.Species.Trim(),
+                Breed = dto.Breed.Trim(),
+                Birthdate = dto.BirthDate,
+                Sex = dto.Sex.Trim(),
+                WeightKg = dto.WeightKg
+            };
+
+            _pets.Add(pet);
+            return CreatedAtAction(nameof(GetOne), new { id = pet.Id }, pet);
+        }
+
+        [HttpPut("{id:guid}")]
+        public IActionResult Update(Guid id, [FromBody] UpdatePetDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var index = _pets.FindIndex(p => p.Id == id);
+            if (index == -1)
+                return NotFound(new { error = "Pet not found", status = 404 });
+
+            var existing = _pets[index];
+            var updated = new Pet
+            {
+                Id = id,
+                OwnerId = existing.OwnerId,
+                Name = dto.Name.Trim(),
+                Species = dto.Species.Trim(),
+                Breed = dto.Breed.Trim(),
+                Birthdate = dto.BirthDate,
+                Sex = dto.Sex.Trim(),
+                WeightKg = dto.WeightKg
+            };
+
+            _pets[index] = updated;
+            return Ok(updated);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = _pets.RemoveAll(p => p.Id == id);
+            return removed == 0
+                ? NotFound(new { error = "Pet not found", status = 404 })
+                : NoContent();
+        }
 
     }
 }
