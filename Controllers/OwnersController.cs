@@ -52,7 +52,19 @@ namespace Owners.Controllers
             _owners.Add(owners);
             return CreatedAtAction(nameof(GetOne), new { id = owners.Id }, owners);
         }
+        [HttpPut("{id:guid}")]
+        public ActionResult<Owner> Update(Guid id, [FromBody] UpdateOwnerDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var index = _owners.FindIndex(a => a.Id == id);
+            if (index == -1) return NotFound(new { error = "Owner not found", status = 404 });
+            var updated = new Owner { Id = Guid.NewGuid(), Email = dto.Email, FullName = dto.FullName, Active = dto.Active };
+            _owners[index] = updated;
+            return Ok(updated);
+        }
         
+
+
 
     }
 }
