@@ -29,3 +29,13 @@ public record CreateVetDto
     [Required, StringLength(50)]
     public string Sex { get; set; }
 }
+
+public record UpdateVetDto
+{
+    [Required, StringLength(100)]
+    public string Name { get; set; }
+    [Required, StringLength(50)]
+    public string Species { get; set; }
+    [Required, StringLength(50)]
+    public string Sex { get; set; }
+}
