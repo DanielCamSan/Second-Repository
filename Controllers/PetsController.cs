@@ -20,7 +20,7 @@ namespace FirstExam.Controllers
             var l = limit.GetValueOrDefault(10); if (l < 1) l = 1; if (l > 100) l = 100;
             return (p, l);
         }
-        /*
+        
         private static IEnumerable<T> OrderByProp<T>(IEnumerable<T> src, string? sort, string? order)
         {
             if (string.IsNullOrWhiteSpace(sort)) return src;
@@ -32,7 +32,7 @@ namespace FirstExam.Controllers
                 : src.OrderBy(x => prop.GetValue(x));
         }
 
-
+        /*
         [HttpGet]
         public IActionResult GetAll(
             [FromQuery] int? page,
