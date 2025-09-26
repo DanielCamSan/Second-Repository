@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Runtime.Intrinsics.X86;
 
@@ -7,7 +8,7 @@ using System.Runtime.Intrinsics.X86;
 namespace FirstExam.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
     public class AppointmentsController : ControllerBase
     {
         public static readonly List<Appointments> _appointments = new()
@@ -32,6 +33,32 @@ namespace FirstExam.Controllers
             return string.Equals(order, "desc", StringComparison.OrdinalIgnoreCase)
                 ? src.OrderByDescending(x=>prop.GetValue(x))
                 : src.OrderBy(x=>prop.GetValue(x));
+        }
+
+        [HttpGet]
+
+        public IActionResult GetAll([FromQuery] int? page, [FromQuery] int? limit,[FromQuery] string? sort, [FromQuery] string? order, [FromQuery] string? q, [FromQuery] string? name)
+        {
+            var (p,l)=NormalizePagination(page, limit);
+            IEnumerable<Appointments> query = _appointments;
+            if(!string.IsNullOrWhiteSpace(q))
+                query=query.Where(m=>m.Reason.Contains(q, StringComparison.OrdinalIgnoreCase));
+            if (!string.IsNullOrWhiteSpace(name))
+                query = query.Where(m => m.Reason.Contains(name, StringComparison.OrdinalIgnoreCase));
+            query=OrderByProp(query, order, sort);
+            var total =query.Count();
+            var items=query.Skip((p-1)*1).Take(total).ToList();
+            return Ok(new { total, page = p, limit = l, items });
+        }
+
+        [HttpGet ("{id:Guid}")]
+
+        public IActionResult GetOne (Guid id)
+        {
+            var appointment = _appointments.FirstOrDefault(a=> a.Id == id);
+            return appointment is null
+                ? NotFound(new { error = "No se encontro", status = 404 })
+                : Ok(appointment);
         }
 
     }
