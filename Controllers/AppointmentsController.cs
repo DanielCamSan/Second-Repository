@@ -60,12 +60,52 @@ namespace Appointments.Controller
             }); 
         }
         [HttpGet("{id:guid}")]
-        public ActionResult<Appointment>getById([FromRoute] Guid id)
+        public ActionResult<Appointment>getById(Guid id)
         {
             var appointment = _appointments.FirstOrDefault(x => x.Id == id); 
             return appointment is null? NotFound(new {error = "Appointmen not found", status = 404 }) : Ok(appointment);
         }
 
+        [HttpPost]
+        public ActionResult<Appointment> create([FromBody] CreateAppointmentDto dto)
+        {
+            if(!ModelState.IsValid) return ValidationProblem(ModelState);
+            var appointment = new Appointment
+            {
+                Id = Guid.NewGuid(),
+                PetId = Guid.NewGuid(),
+                ScheduledAt = DateTime.Now, 
+                Reason = dto.Reason,
+            };
+            _appointments.Add(appointment);
+            return CreatedAtAction(nameof(getById), new { id = appointment.Id }, appointment);
+        }
+
+        [HttpPut("{id:guid}")]
+        public ActionResult<Appointment> update( Guid id, [FromBody] UpdateAppointmentDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var index = _appointments.FindIndex(x => x.Id == id);
+            if (index == -1) return NotFound(new { error = "Appointment not found", status = 404 });
+            var updated = new Appointment
+            {
+                Id = id,
+                PetId = _appointments[index].PetId,
+                ScheduledAt = dto.ScheduledAt,
+                Status = dto.Status,
+                Reason = dto.Reason,
+                Notes = dto.Notes,
+            };
+            _appointments[index] = updated;
+            return Ok(updated);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult delete(Guid id )
+        {
+            var delete = _appointments.RemoveAll(x => x.Id == id);
+            return delete == 0 ? NotFound(new { error = "Appointment not found", status = 404 }) : NoContent();
+        }
     }
 
 }

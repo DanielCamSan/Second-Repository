@@ -6,7 +6,7 @@ public class Appointment
       public Guid Id {  get; set; }
       public Guid PetId { get; set;  }
       [Required]
-      public DateTime ScheduledAt { get; set; }
+      public DateTime ScheduledAt { get; set; } = DateTime.Now;
     [Required,StringLength(50)]
 
     public string Reason { get; set; } = string.Empty;
@@ -23,16 +23,21 @@ public class Appointment
 
 public record CreateAppointmentDto
 {
-    public DateTime ScheduledAt { get ; set; }
+    [Required, StringLength(50)]
     public string Reason { get; set; } = string.Empty;
-    public string Status { get; set; } = "Scheduled"; 
-    public string? Notes { get; set;  }
+    public string? Notes { get; set; } = "N/A"; 
 }
 
 public record UpdateAppointmentDto
+
 {
+    [Required]
     public DateTime ScheduledAt { get; set; }
+    [Required, StringLength(50)]
     public string Reason { get; set; } = string.Empty;
-    public string Status { get; set; } = "Scheduled";
+    [Required, StringLength(50)]
+    public string Status { get; set; } = string.Empty;
+    [Required, StringLength(100)]
     public string? Notes { get; set; }
+
 }
