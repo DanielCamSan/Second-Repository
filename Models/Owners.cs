@@ -13,10 +13,10 @@ public class Owner
     [Required, StringLength(20, MinimumLength = 7)]
     public string Phone { get; set; } = string.Empty;
 
-    public bool Active { get; set; } = true; // default requerido
+    public bool Active { get; set; } = true; 
 }
 
-// ========== DTOs ==========
+
 
 public record CreateOwnerDto
 {
@@ -29,7 +29,7 @@ public record CreateOwnerDto
     [Required, StringLength(20, MinimumLength = 7)]
     public string Phone { get; init; } = string.Empty;
 
-    public bool? Active { get; init; } // null => controller lo pone en true
+    public bool? Active { get; init; } 
 }
 
 public record UpdateOwnerDto
