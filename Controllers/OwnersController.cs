@@ -92,7 +92,22 @@ namespace FirstExam.Controllers
             return CreatedAtAction(nameof(GetOne), new { id = owner.Id });
         }
 
-        
+        [HttpPut("{id:guid}")]
+        public ActionResult<Owner> Update(Guid id, [FromBody] UpdateOwnerDto dto)
+        {
+
+            var index = _owners.FindIndex(o => o.Id == id);
+            if (index == -1) return NotFound();
+            var updated = new Owner
+            {
+                Id = id,
+                Email = dto.Email.Trim(),
+                FullName = dto.FullName.Trim(),
+                Active = dto.Active
+            };
+            _owners[index] = updated;
+            return Ok(updated);
+        }
 
     }
 }
