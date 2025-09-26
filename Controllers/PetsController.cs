@@ -131,5 +131,13 @@ namespace FirstExam.Controllers
             return Ok(updated);
 
         }
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = pets.RemoveAll(pet => pet.Id == id);
+            return removed == 0 ?
+                NotFound(new { error = "Pet not found", status = 404 }) :
+            NoContent();
+        }
     }
 }
