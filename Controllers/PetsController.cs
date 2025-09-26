@@ -106,7 +106,7 @@ namespace FirstExam.Controllers
                 WeightKg = dto.WeightKg
             };
             pets.Add(pet);
-            return CreatedAtAction(nameof(GetOne), new { id = pet.Id });
+            return CreatedAtAction(nameof(GetOne), new { id = pet.Id },pet);
         }
 
         [HttpPut("{id:guid}")]
