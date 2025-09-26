@@ -10,7 +10,7 @@ public class Owner
     [Required, StringLength(50)]
     public string FullName { get; set; }
   
-    public bool Active {  get; set; }
+    public bool Active {  get; set; } =true;
 }
 public record CreateOwnerDto
 {
@@ -21,7 +21,7 @@ public record CreateOwnerDto
     [Required, StringLength(50)]
     public string FullName { get; set; } = string.Empty;
 
-    public bool Active { get; set; }
+    public bool Active { get; set; } = true;
 }
 
 public record UpdateOwnerDto
@@ -33,5 +33,5 @@ public record UpdateOwnerDto
     [Required, StringLength(50)]
     public string FullName { get; set; } = string.Empty;
 
-    public bool Active { get; set; }
+    public bool Active { get; set; } = true;
 }
