@@ -61,5 +61,27 @@ namespace FirstExam.Controllers
                 : Ok(appointment);
         }
 
+        [HttpPost]
+        public ActionResult<Appointments> Create([FromBody] CreateAppointmentsDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var appointments = new Appointments
+            {
+                Id = Guid.NewGuid(),
+                PetId = Guid.NewGuid(),
+                Schedule= DateTime.Now,
+                Reason=dto.Reason,
+                Status=dto.Status,
+                Notes=dto.Notes
+               
+            };
+
+            _appointments.Add(appointments);
+            return CreatedAtAction(nameof(GetOne), new { id = appointments.Id }, appointments);
+        }
+
+
+
     }
 }
