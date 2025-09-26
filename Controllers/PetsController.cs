@@ -59,7 +59,14 @@ namespace FirstExam.Controllers
             });
         }
 
-
+        [HttpGet("{id:guid}")]
+        public ActionResult<Pet> GetOne(Guid Id)
+        {
+            var pet = _pets.FirstOrDefault(a => a.Id == Id);
+            return pet is null
+                ? NotFound(new { error = "Pet not found", status = 404 })
+                : Ok(pet);
+        }
     }
 }
 
