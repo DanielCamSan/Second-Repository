@@ -49,7 +49,28 @@ namespace FirstExam.Controllers
             var data = query.Skip((p - 1) * l).Take(l).ToList();
             return Ok(new { data, meta = new { page = p, limit = l, total } });
         }
+        [HttpGet("{id:guid}")]
+        public ActionResult <Owner>GetOne(Guid id)
+        {
+            var owner = _owners.FirstOrDefault(o => o.Id == id);
+            return owner is null ? NotFound(new { error = "Owner not found", status=404 }) : Ok(owner);
+        }
 
+        [HttpPost]
+        public ActionResult<Owner>Create([FromBody] CreateOwnerDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var owner = new Owner
+            {
+                Id = Guid.NewGuid(),
+                Email = dto.Email,
+                FullName = dto.FullName,
+                Active = true
+            };
+            _owners.Add(owner);
+            return CreatedAtAction(nameof(GetOne), new { id = owner.Id }, owner);
+
+        }
 
     }
 }
