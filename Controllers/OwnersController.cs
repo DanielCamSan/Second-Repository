@@ -71,7 +71,14 @@ namespace FirstExam.Controllers
                 meta = new { page = p, limit = l, total }
             });
         }
+        [HttpGet("{id:guid}")]
+        public ActionResult<Owner> GetOne(Guid id)
+        {
+            var owner = _owners.FirstOrDefault(o => o.Id == id);
+            return owner is null ? NotFound() : Ok(owner);
+        }
 
 
+       
     }
 }
