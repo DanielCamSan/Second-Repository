@@ -73,5 +73,15 @@ namespace FirstExam.Controllers
 
             return Ok(existing);
         }
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var existing = _owners.FirstOrDefault(o => o.Id == id);
+            if (existing == null)
+                return NotFound(new { error = "Owner not found", status = 404 });
+
+            _owners.Remove(existing);
+            return NoContent();
+        }
     }
 }
