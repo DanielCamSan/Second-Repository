@@ -11,7 +11,7 @@ public class Pet
     public string Breed { get; set; } = string.Empty;
     public DateTime Birthdate { get; set; }
     public string Sex { get; set; } = string.Empty;
-    public decimal? WeightKg { get; set; }
+    public float? WeightKg { get; set; }
 }
 public record CreatePetDto
 {
@@ -22,7 +22,7 @@ public record CreatePetDto
     public string Breed { get; init; } = string.Empty;
     public DateTime Birthdate { get; init; }
     public string Sex { get; init; } = string.Empty;
-    public decimal? WeightKg { get; init; }
+    public float? WeightKg { get; init; }
 }
 public record UpdatePetDto
 {
@@ -33,5 +33,5 @@ public record UpdatePetDto
     public string Breed { get; init; } = string.Empty;
     public DateTime Birthdate { get; init; }
     public string Sex { get; init; } = string.Empty;
-    public decimal? WeightKg { get; init; }
+    public float? WeightKg { get; init; }
 }
