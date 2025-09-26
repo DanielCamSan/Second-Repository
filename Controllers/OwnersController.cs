@@ -4,6 +4,14 @@
 [Route("api/v1/[controller]")]
 public class OwnersController : ControllerBase
 {
+
+    private static readonly List<Owner> _owners = new()
+    {
+        new Owner { Email = "ana@example.com",  FullName = "Ana Pérez",  Phone = "+59177777777", Active = true },
+        new Owner { Email = "luis@example.com", FullName = "Luis García", Phone = "+59170000000", Active = true }
+    };
+
+
     private static (int page, int limit, string order) Normalize(int? page, int? limit, string? order)
     {
         var p = page.GetValueOrDefault(1); if (p < 1) p = 1;
@@ -12,14 +20,15 @@ public class OwnersController : ControllerBase
         return (p, l, o);
     }
 
+
     [HttpGet]
     public IActionResult GetAll([FromQuery] int? page, [FromQuery] int? limit,
                                 [FromQuery] string? sort, [FromQuery] string? order)
     {
         var (p, l, o) = Normalize(page, limit, order);
-        IEnumerable<Owner> query = InMemoryDb.Owners;
+        IEnumerable<Owner> query = _owners;
 
-        // Ordenamiento seguro con whitelist
+
         query = (sort?.ToLower()) switch
         {
             "fullname" => (o == "desc") ? query.OrderByDescending(x => x.FullName) : query.OrderBy(x => x.FullName),
@@ -31,15 +40,20 @@ public class OwnersController : ControllerBase
 
         var total = query.Count();
         var items = query.Skip((p - 1) * l).Take(l).ToList();
+
         return Ok(new { data = items, meta = new { page = p, limit = l, total } });
     }
+
 
     [HttpGet("{id:guid}")]
     public IActionResult GetOne(Guid id)
     {
-        var item = InMemoryDb.Owners.FirstOrDefault(x => x.Id == id);
-        return item is null ? NotFound(new { error = "Owner not found", status = 404 }) : Ok(item);
+        var item = _owners.FirstOrDefault(x => x.Id == id);
+        return item is null
+            ? NotFound(new { error = "Owner not found", status = 404 })
+            : Ok(item);
     }
+
 
     [HttpPost]
     public IActionResult Create([FromBody] CreateOwnerDto dto)
@@ -54,19 +68,20 @@ public class OwnersController : ControllerBase
             Active = dto.Active ?? true
         };
 
-        InMemoryDb.Owners.Add(entity);
+        _owners.Add(entity);
         return CreatedAtAction(nameof(GetOne), new { id = entity.Id }, entity);
     }
+
 
     [HttpPut("{id:guid}")]
     public IActionResult Update(Guid id, [FromBody] UpdateOwnerDto dto)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
-        var idx = InMemoryDb.Owners.FindIndex(x => x.Id == id);
+        var idx = _owners.FindIndex(x => x.Id == id);
         if (idx == -1) return NotFound(new { error = "Owner not found", status = 404 });
 
-        InMemoryDb.Owners[idx] = new Owner
+        _owners[idx] = new Owner
         {
             Id = id,
             Email = dto.Email.Trim(),
@@ -74,13 +89,17 @@ public class OwnersController : ControllerBase
             Phone = dto.Phone.Trim(),
             Active = dto.Active
         };
-        return Ok(InMemoryDb.Owners[idx]);
+
+        return Ok(_owners[idx]);
     }
 
+ 
     [HttpDelete("{id:guid}")]
     public IActionResult Delete(Guid id)
     {
-        var removed = InMemoryDb.Owners.RemoveAll(x => x.Id == id);
-        return removed == 0 ? NotFound(new { error = "Owner not found", status = 404 }) : NoContent();
+        var removed = _owners.RemoveAll(x => x.Id == id);
+        return removed == 0
+            ? NotFound(new { error = "Owner not found", status = 404 })
+            : NoContent();
     }
 }
