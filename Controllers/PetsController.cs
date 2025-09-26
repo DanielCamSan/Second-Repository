@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.JSInterop.Infrastructure;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace FirstExam.Controllers
@@ -74,9 +76,9 @@ namespace FirstExam.Controllers
                 a.Species.Contains(Q, StringComparison.OrdinalIgnoreCase));
             }
             query = OrderByProp(query, Sort, Order);
-            var total=query.Count();
-            var data=query.Skip((p-1)*l).Take(l).ToArray();
-            return Ok(new {data,meta=new { page=p,limit=l,total}} );
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToArray();
+            return Ok(new { data, meta = new { page = p, limit = l, total } });
 
         }
 
@@ -84,8 +86,27 @@ namespace FirstExam.Controllers
         public ActionResult<Pet> GetOne(Guid id)
         {
             var pet = pets.FirstOrDefault<Pet>(pets => pets.Id == id);
-            return pet is null ? NotFound(new { error = "Pet not found", status = 404 }):Ok(pet);
+            return pet is null ? NotFound(new { error = "Pet not found", status = 404 }) : Ok(pet);
         }
 
+        [HttpPost]
+        public ActionResult<Pet> Create([FromBody] CreatePetDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var pet = new Pet()
+            {
+                Id = Guid.NewGuid(),
+                OwnerId = dto.OwnerId,
+                Name = dto.Name.Trim(),
+                Species = dto.Species.Trim(),
+                Breed = dto.Species.Trim(),
+                BirthDate = dto.BirthDate,
+                sex = dto.sex.Trim(),
+                WeightKg = dto.WeightKg
+            };
+            pets.Add(pet);
+            return CreatedAtAction(nameof(GetOne), new { id = pet.Id });
+        }
     }
 }
