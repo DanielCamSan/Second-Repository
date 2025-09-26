@@ -109,6 +109,29 @@ namespace FirstExam.Controllers
         }
 
 
+        [HttpPut("{id:guid}")]
+        public ActionResult<Pets> Update(Guid id, [FromBody] UpdatePetDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var index = _pets.FindIndex(a => a.Id == id);
+            if (index == -1)
+                return NotFound(new { error = "Subscription not found", status = 404 });
+
+            var updated = new Pets
+            {
+                Id = Guid.NewGuid(),
+                OwnerId = Guid.NewGuid(),
+                Name = dto.Name.Trim(),
+                Species = dto.Species.Trim(),
+                Breed = dto.Breed.Trim(),
+                BirthData = dto.BirthData,
+                Sex = dto.Sex.Trim(),
+            };
+
+            _pets[index] = updated;
+            return Ok(updated);
+        }
 
 
 
