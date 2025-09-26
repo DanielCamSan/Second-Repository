@@ -5,7 +5,7 @@ using System.Runtime.Intrinsics.X86;
 namespace FirstExam.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
     public class PetsController : ControllerBase
     {
         private static readonly List<Pets> _pets = new() {
@@ -142,12 +142,13 @@ namespace FirstExam.Controllers
                 : NoContent();
         }
 
-
-
-
-
-
     };
+
+}
+
+
+
+
 
 
    
@@ -156,5 +157,3 @@ namespace FirstExam.Controllers
 
 
 
-
-}
