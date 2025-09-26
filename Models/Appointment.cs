@@ -26,9 +26,6 @@ public record CreateAppointmentDto
     [Required, StringLength(200)]
     public string Reason { get; set; } = string.Empty;
 
-    [Required]
-    public string Status { get; set; } = string.Empty;
-
     public string Notes { get; set; } = string.Empty;
 }
 
