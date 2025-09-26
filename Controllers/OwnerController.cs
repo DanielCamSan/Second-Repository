@@ -109,7 +109,13 @@ namespace FirstExam.Controllers
             _owners[index] = updated;
             return Ok(updated);
         }
-        
+
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = _owners.RemoveAll(a => a.Id == id);
+            return removed == 0 ? NotFound(new { error = "Owner not found", status = 404 }) : NoContent();
+        }
 
 
     }
