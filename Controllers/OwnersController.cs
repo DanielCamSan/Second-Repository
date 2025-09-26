@@ -57,5 +57,21 @@ namespace FirstExam.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = owner.Id }, owner);
         }
+        [HttpPut("{id:guid}")]
+        public IActionResult Update(Guid id, [FromBody] UpdateOwnerDto dto)
+        {
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
+            var existing = _owners.FirstOrDefault(o => o.Id == id);
+            if (existing == null)
+                return NotFound(new { error = "Owner not found", status = 404 });
+
+            existing.Email = dto.Email.Trim();
+            existing.FullName = dto.FullName.Trim();
+            existing.Active = dto.Active;
+
+            return Ok(existing);
+        }
     }
 }
