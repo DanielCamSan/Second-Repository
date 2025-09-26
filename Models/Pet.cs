@@ -15,12 +15,11 @@ namespace FirstExam.Models
 
         public string breed { get; set; }
 
-        public DateTime birthDate{ get; set; }= DateTime.Now;   
-
-
-        public string sex { get; set; }
+        public DateTime birthDate{ get; set; }= DateTime.Now;
 
         [Required]
+        public string sex { get; set; }
+
         public decimal? weightKg { get; set; }
 
     }
@@ -32,7 +31,7 @@ namespace FirstExam.Models
 
         public string name { get; set; }
 
-
+        [Required]
         public string species { get; set; }
 
 
@@ -40,7 +39,7 @@ namespace FirstExam.Models
 
         public DateTime birthDate { get; set; }
 
-
+        [Required]
         public string sex { get; set; }
 
 
@@ -54,7 +53,7 @@ namespace FirstExam.Models
 
         public string name { get; set; }
 
-
+        [Required]
         public string species { get; set; }
 
 
@@ -62,9 +61,9 @@ namespace FirstExam.Models
 
         public DateTime birthDate { get; set; }
 
+        [Required]
         public string sex { get; set; }
 
-        [Required]
         public decimal weightKg { get; set; }
     }
 }
