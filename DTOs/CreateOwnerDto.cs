@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VetClinic.Models.DTOs
+namespace FirstExam.Models.DTOs
 {
     public class CreateOwnerDto
     {
