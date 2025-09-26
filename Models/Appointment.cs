@@ -28,4 +28,19 @@ public class Appointment
 
         public string? Notes { get; set; }
     }
+    public class UpdateAppointmentDto
+    {
+        [Required]
+        public DateTime ScheduledAt { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Reason { get; set; }
+
+        [Required]
+        [RegularExpression("scheduled|completed|canceled|no_show")]
+        public string Status { get; set; }
+
+        public string? Notes { get; set; }
+    }
 }
