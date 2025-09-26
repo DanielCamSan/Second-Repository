@@ -5,16 +5,16 @@ using System.ComponentModel.DataAnnotations;
 
 public class Owner
 {
-        public Guid Id { get; set; }
+    public Guid Id { get; set; }
 
 
-        [Required, StringLength(100)]
-        public string Email { get; set; }
+    [Required, StringLength(100)]
+    public string Email { get; set; }
 
-        [Required, StringLength(100)]
-        public string FullName { get; set; }
+    [Required, StringLength(100)]
+    public string FullName { get; set; }
 
-        public bool Active { get; set; } = true;
+    public bool Active { get; set; } = true;
 
 }
 
