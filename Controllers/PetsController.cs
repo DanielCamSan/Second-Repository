@@ -1,6 +1,57 @@
-﻿namespace FirstExam.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
+
+namespace FirstExam.Controllers
 {
-    public class PetsController
+    [ApiController]
+    [Route("api/[controller]")]
+    public class PetsController : ControllerBase
     {
+        private static readonly List<Pet> pets = new()
+       {
+           new Pet { Id= new Guid(), OwnerId=new Guid(), Name= "Pablo", Species= "dog", Breed = "golden" , Birthdate =  new DateTime(2025,02,20) , Sex = "male" },
+           new Pet { Id= new Guid(), OwnerId=new Guid(), Name= "Majo", Species= "cat", Breed = "persian" , Birthdate =  new DateTime(2025,03,15) , Sex = "male" },
+           new Pet { Id= new Guid(), OwnerId=new Guid(), Name= "Amira", Species= "bird", Breed = "parrot" , Birthdate =  new DateTime(2025,02,28) , Sex = "male" },
+           new Pet { Id= new Guid(), OwnerId=new Guid(), Name= "Ari", Species= "dog", Breed = "golden" , Birthdate =  new DateTime(2025,08,30) , Sex = "male" }
+       };
+        private static (int page, int limit) NormalizePage(int? page, int? limit)
+        {
+            var p = page.GetValueOrDefault(1); if (p < 1) p = 1;
+            var l = limit.GetValueOrDefault(10); if (l < 1) l = 1; if (l > 10) l = 10;
+            return (p, l);
+        }
+        private static IEnumerable<T> OrderByProp<T>(IEnumerable<T> src, string? sort, string? order)
+        {
+            if (string.IsNullOrWhiteSpace(sort)) return src;
+            var prop = typeof(T).GetProperty(sort, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+            if (prop is null) return src;
+            return string.Equals(order, "asc", StringComparison.OrdinalIgnoreCase)
+                ? src.OrderByDescending(x => prop.GetValue(x))
+                : src.OrderBy(x => prop.GetValue(x));
+        }
+        [HttpGet]
+        public IActionResult GetAll(
+            [FromQuery] int? page,
+            [FromQuery] int? limit,
+            [FromQuery] string? sort,
+            [FromQuery] string? order
+            )
+        {
+            var (p, l) = NormalizePage(page, limit);
+            IEnumerable<Pet> query = OrderByProp(pets, sort, order);
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToList();
+            return Ok(new { data, meta = new { page = p, limit = l, total } });
+        }
+        [HttpGet("{id:guid}")]
+        public ActionResult<Pet> GetOne(Guid id)
+        {
+            var pet = pets.FirstOrDefault(x => x.Id == id);
+            return pet is null ? NotFound(new { error = "Pet not Found", status = 404 })
+                : Ok(pet);
+        }
+        
+        
+
     }
 }
