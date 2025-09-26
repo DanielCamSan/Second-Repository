@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace FirstExam.Controllers
 {
     [ApiController]
-    [Route("api/vi/[Controller]")]
+    [Route("api/v1/[Controller]")]
     public class OwnersController : Controller
     {
         public static readonly List<Owner> owners = new()
@@ -50,7 +50,7 @@ namespace FirstExam.Controllers
         public ActionResult<Owner> GetOne(Guid id)
         {
             var owner = owners.FirstOrDefault(a => a.Id == id);
-            return owner is null ? NotFound(new { error = "owner not found ", status = 404 }); Ok(owner);  
+            return owner is null ? NotFound(new { error = "owner not found ", status = 404 }): Ok(owner);  
 
         }
         [HttpPost]
