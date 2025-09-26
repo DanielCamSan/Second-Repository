@@ -5,7 +5,7 @@ using System.Reflection;
 namespace FirstExam.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class OwnersController : ControllerBase
     {
         private static readonly List<Owner> _owners = new()
@@ -76,7 +76,7 @@ namespace FirstExam.Controllers
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
             var index = _owners.FindIndex(o => o.Id == id);
-            if (index == -1) return NotFound(new { error = "Ownwe not found", status = 404 });
+            if (index == -1) return NotFound(new { error = "Owner not found", status = 404 });
             var updated = new Owner
             {
                 Id = id,
