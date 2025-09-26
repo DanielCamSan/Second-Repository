@@ -81,5 +81,25 @@ namespace FirstExam.Controllers
             return CreatedAtAction(nameof(GetOne), new { id = appointment.Id }, appointment);
         }
 
+        [HttpPut("{id : Guid}")]
+        public ActionResult<Appointment> Update(Guid id, [FromBody] UpdateAppointmentDto dto)
+        {
+            if(!ModelState.IsValid) return ValidationProblem(ModelState);
+            var index = _appointments.FindIndex(a => a.Id == id);
+            if (index == -1) return NotFound(new { error = "Appointment not found", status = 404 });
+
+            var updated = new Appointment
+            {
+                Id = id,
+                ScheduledAt = dto.ScheduledAt,
+                Status = dto.Status,
+                Notes = dto.Notes
+            };
+
+            _appointments[index] = updated;
+            return Ok(updated);
+        }
+
+
     }
 }
