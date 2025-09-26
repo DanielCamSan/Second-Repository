@@ -12,3 +12,13 @@ public class Appointment
     public string Status { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
 }
+
+public record CreateAppointmentDto
+{
+    [Required]
+    public Guid PetId { get; set; }
+    public string Reason { get; set; } = string.Empty;
+    [Required]
+    public string Status { get; set; } = string.Empty;
+    public string Notes { get; set; } = string.Empty;
+}
