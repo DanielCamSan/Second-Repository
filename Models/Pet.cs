@@ -21,7 +21,7 @@ using System.Threading.Tasks;
     [Required, StringLength(100)]
     public string Sex { get; set; }= string.Empty;
     [Required, StringLength(100)]
-    public decimal? WeigthKg { get; set; }
+    public decimal? WeightKg { get; set; }
 
 }
 public record CreatePetDto
