@@ -16,13 +16,34 @@ using System.Threading.Tasks;
     public string Species { get; set; }=string .Empty;
     [Required, StringLength(100)]
     public string Breed { get; set; } = string.Empty;
-
-    
+    [Required]
     public DateTime Birthdate { get; set; }
     [Required, StringLength(100)]
-    public string sex { get; set; }
+    public string sex { get; set; }= string.Empty;
     [Required, StringLength(100)]
     public decimal? WeigthKg { get; set; }
 
 }
+public record CreatePetDto
+{
+    [Required]
+    public Guid OwnerId { get; init; }
 
+    [Required, StringLength(100)]
+    public string Name { get; init; } = string.Empty;
+
+    [Required, RegularExpression("^(dog|cat|bird|reptile|other)$")]
+    public string Species { get; init; } = string.Empty;
+
+    [Required, StringLength(100)]
+    public string Breed { get; init; } = string.Empty;
+
+    [Required]
+    public DateTime BirthDate { get; init; }
+
+    [Required, StringLength(100)]
+    public string Sex { get; init; } = string.Empty;
+    [Required, StringLength(100)]
+    public decimal? WeightKg { get; init; }
+
+}
