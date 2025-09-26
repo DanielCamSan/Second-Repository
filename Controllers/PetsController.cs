@@ -17,7 +17,46 @@ namespace FirstExam.Controllers
             [FromQuery] string? sort = null,
             [FromQuery] string order = "asc")
         {
-            
+            // Validaciones comunes de paginación/orden
+            if (page < 1) ModelState.AddModelError(nameof(page), "page debe ser >= 1");
+            if (limit is < 1 or > 100) ModelState.AddModelError(nameof(limit), "limit debe estar en el rango 1–100");
+            if (!string.Equals(order, "asc", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(order, "desc", StringComparison.OrdinalIgnoreCase))
+            {
+                ModelState.AddModelError(nameof(order), "order debe ser 'asc' o 'desc'");
+            }
+
+            // Campos de orden permitidos
+            var allowedSort = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "name", "birthDate", "weightKg"
+            };
+            var sortField = string.IsNullOrWhiteSpace(sort) ? "name" : sort;
+            if (!allowedSort.Contains(sortField))
+            {
+                ModelState.AddModelError(nameof(sort), $"sort debe ser uno de: {string.Join(", ", allowedSort)}");
+            }
+
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
+            var query = _store.Values.AsQueryable();
+
+            // Orden
+            var desc = string.Equals(order, "desc", StringComparison.OrdinalIgnoreCase);
+            query = sortField.ToLowerInvariant() switch
+            {
+                "birthdate" => (desc ? query.OrderByDescending(p => p.BirthDate) : query.OrderBy(p => p.BirthDate)),
+                "weightkg"  => (desc ? query.OrderByDescending(p => p.WeightKg)  : query.OrderBy(p => p.WeightKg)),
+                _           => (desc ? query.OrderByDescending(p => p.Name)      : query.OrderBy(p => p.Name)),
+            };
+
+            var total = query.Count();
+            var data = query
+                .Skip((page - 1) * limit)
+                .Take(limit)
+                .ToList();
+
             var response = new PagedResponse<Pets>(data, new PageMeta(page, limit, total));
             return Ok(response);
         }
