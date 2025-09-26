@@ -53,6 +53,15 @@ namespace FirstExam.Controllers
             });
         }
 
+        [HttpGet("{id : Guid}")]
+        public ActionResult<Appointment> GetOne(Guid id)
+        {
+            var appointment = _appointments.FirstOrDefault(a => a.Id == id);
+            return appointment is null 
+                ? NotFound(new{ error = "Appointment not found", status = 404})
+                : Ok(appointment);
+        }
+
 
     }
 }
