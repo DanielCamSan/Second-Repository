@@ -17,6 +17,7 @@ public class Owner
     public string FullName { get; set; }
     
     public bool Active { get; set; }
+    
 }
 
 public record CreateOwnerDto
