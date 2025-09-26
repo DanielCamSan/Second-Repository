@@ -29,3 +29,14 @@ public record CreateOwnerDto
 
     public bool Active { get; set; }
 };
+
+public record UpdateOwnerDto
+{
+    [Required, StringLength(100)]
+    public string Email { get; set; }
+
+    [Required, StringLength(100)]
+    public string FullName { get; set; }
+
+    public bool Active { get; set; }
+};
