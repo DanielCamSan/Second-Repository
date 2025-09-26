@@ -31,6 +31,35 @@ namespace FirstExam.Controllers
 
         }
 
+        //Get method
+
+        [HttpGet]
+        public ActionResult Getall(
+            [FromQuery] int? page,
+            [FromQuery] int? limit,
+            [FromQuery] string? sort,
+            [FromQuery] string? order
+            )
+        {
+            var (p, l) = NormalizePage(page, limit);
+
+            IEnumerable<Pet> query = _pets;
+            query = OrderByProp(query, sort, order);
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToList();
+            return Ok(new
+            {
+                data,
+                meta = new
+                {
+                    page = p,
+                    limit = l,
+                    total
+                }
+            });
+        }
+
+
     }
 }
 
