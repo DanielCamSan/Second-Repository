@@ -23,7 +23,7 @@ public record CreateOwnerDto
     [Required]
      public Guid Id { get; init; }
 
-    [Required, Length(0, 100)]
+    [Required,  EmailAddress]
      public string Email { get; init; } = "";
 
     [Required, Length(0, 100)]
@@ -38,7 +38,7 @@ public record UpdateOwnerDto
     [Required]
      public Guid Id { get; init; }
 
-    [Required, Length(0, 100)]
+    [Required,  EmailAddress]
      public string Email { get; init; } = "";
 
     [Required, Length(0, 100)]
