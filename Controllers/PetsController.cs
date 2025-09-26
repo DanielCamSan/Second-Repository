@@ -68,7 +68,7 @@ namespace FirstExam.Controllers
             pets.Add(pet);
             return CreatedAtAction(nameof(GetOne), new { id = pet.Id }, pet);
         }
-        [HttpPut]
+        [HttpPut("{id:guid}")]
         public ActionResult<Pet> Update(Guid id, [FromBody] UpdatePetDto dto)
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
@@ -76,7 +76,6 @@ namespace FirstExam.Controllers
             if (index == -1) return NotFound(new { error = "Pet not found", status = 404 });
             var updated = new Pet 
             {
-                Id = new Guid(),
                 OwnerId = dto.OwnerId,
                 Name = dto.Name,
                 Species = dto.Species,
