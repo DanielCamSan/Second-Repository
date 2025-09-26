@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 public class Appointment
 {
@@ -17,4 +18,13 @@ public class Appointment
     public string? Notes { get; set; }
 
 
+}
+
+
+public record class CreateAppointmentDto
+{
+    public DateTime ScheduledAt { get ; set; }
+    public string Reason { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty; 
+    public string? Notes { get; set;  }
 }
