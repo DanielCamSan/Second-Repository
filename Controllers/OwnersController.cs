@@ -6,7 +6,7 @@ namespace Owners.Controllers
 {
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class OwnersController : ControllerBase
     {
         private static readonly List<Owner> _owners = new()
