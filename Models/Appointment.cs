@@ -17,6 +17,7 @@ public record CreateAppointmentDto
 {
     [Required]
     public Guid PetId { get; set; }
+    [Required, StringLength(200)]
     public string Reason { get; set; } = string.Empty;
     [Required]
     public string Status { get; set; } = string.Empty;
