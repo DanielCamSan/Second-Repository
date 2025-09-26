@@ -50,14 +50,14 @@ namespace FirstExam.Controllers
             return Ok(new { data, meta = new { page = p, limit = l, total } });
         }
         [HttpGet("{id:guid}")]
-        public ActionResult <Owner>GetOne(Guid id)
+        public ActionResult<Owner> GetOne(Guid id)
         {
             var owner = _owners.FirstOrDefault(o => o.Id == id);
-            return owner is null ? NotFound(new { error = "Owner not found", status=404 }) : Ok(owner);
+            return owner is null ? NotFound(new { error = "Owner not found", status = 404 }) : Ok(owner);
         }
 
         [HttpPost]
-        public ActionResult<Owner>Create([FromBody] CreateOwnerDto dto)
+        public ActionResult<Owner> Create([FromBody] CreateOwnerDto dto)
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
             var owner = new Owner
@@ -72,7 +72,7 @@ namespace FirstExam.Controllers
 
         }
         [HttpPut("{id:guid}")]
-        public ActionResult <Owner>Update(Guid id, [FromBody] UpdateOwnerDto dto)
+        public ActionResult<Owner> Update(Guid id, [FromBody] UpdateOwnerDto dto)
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
             var index = _owners.FindIndex(o => o.Id == id);
@@ -87,8 +87,14 @@ namespace FirstExam.Controllers
             };
             _owners.Add(updated);
             return Ok(updated);
-            
-            
-        }
 
+
+        }
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = _owners.RemoveAll(o => o.Id == id);
+            return removed == 0 ? NotFound(new { error = "Owner not found", status = 404 }) : NoContent();
+        }
+    }
 }
