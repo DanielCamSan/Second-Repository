@@ -9,10 +9,10 @@ namespace FirstExam.Controllers
     {
         private static readonly List<Pet> pets = new()
        {
-           new Pet { Id= new Guid(), OwnerId=new Guid(), Name= "Pablo", Species= "dog", Breed = "golden" , Birthdate =  new DateTime(2025,02,20) , Sex = "male" },
-           new Pet { Id= new Guid(), OwnerId=new Guid(), Name= "Majo", Species= "cat", Breed = "persian" , Birthdate =  new DateTime(2025,03,15) , Sex = "male" },
-           new Pet { Id= new Guid(), OwnerId=new Guid(), Name= "Amira", Species= "bird", Breed = "parrot" , Birthdate =  new DateTime(2025,02,28) , Sex = "male" },
-           new Pet { Id= new Guid(), OwnerId=new Guid(), Name= "Ari", Species= "dog", Breed = "golden" , Birthdate =  new DateTime(2025,08,30) , Sex = "male" }
+           new Pet { Id= Guid.NewGuid(), OwnerId=Guid.NewGuid(), Name= "Pablo", Species= "dog", Breed = "golden" , Birthdate =  new DateTime(2025,02,20) , Sex = "male" },
+           new Pet { Id= Guid.NewGuid(), OwnerId=Guid.NewGuid(), Name= "Majo", Species= "cat", Breed = "persian" , Birthdate =  new DateTime(2025,03,15) , Sex = "male" },
+           new Pet { Id= Guid.NewGuid(), OwnerId=Guid.NewGuid(), Name= "Amira", Species= "bird", Breed = "parrot" , Birthdate =  new DateTime(2025,02,28) , Sex = "male" },
+           new Pet { Id= Guid.NewGuid(), OwnerId=Guid.NewGuid(), Name= "Ari", Species= "dog", Breed = "golden" , Birthdate =  new DateTime(2025,08,30) , Sex = "male" }
        };
         private static (int page, int limit) NormalizePage(int? page, int? limit)
         {
@@ -56,7 +56,7 @@ namespace FirstExam.Controllers
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
             var pet = new Pet
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 OwnerId = dto.OwnerId,
                 Name = dto.Name,
                 Species = dto.Species,
@@ -68,6 +68,7 @@ namespace FirstExam.Controllers
             pets.Add(pet);
             return CreatedAtAction(nameof(GetOne), new { id = pet.Id }, pet);
         }
+        [HttpPut]
         public ActionResult<Pet> Update(Guid id, [FromBody] UpdatePetDto dto)
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
