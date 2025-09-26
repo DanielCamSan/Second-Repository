@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Numerics;
 using System.Reflection;
 namespace FirstExam.Controllers
 {
@@ -32,10 +33,37 @@ namespace FirstExam.Controllers
                 : src.OrderBy(x => prop.GetValue(x));
 
         }
-    }
-    //Get
-    [HttpGet]
-    public ActionResult Getall(
-        )
+        //Get
+        [HttpGet]
+        public ActionResult Getall(
+            [FromQuery] int? page,
+            [FromQuery] int? limit,
+            [FromQuery] string? sort,
+            [FromQuery] string? order
+            )
+        {
+            var (p, l) = NormalizePage(page, limit);
 
+            IEnumerable<Owner> query = _owners;
+            query = OrderByProp(query, sort, order);
+            var total = query.Count();
+            var data = query.Skip((p - 1) * l).Take(l).ToList();
+            return Ok(new
+            {
+                data,
+                meta = new
+                {
+                    page = p,
+                    limit = l,
+                    total
+                }
+            });
+        }
+        [HttpGet("{id:guid}")]
+
+        public ActionResult<Owner>
     }
+    
+
+
+}
