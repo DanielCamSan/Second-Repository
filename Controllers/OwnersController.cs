@@ -39,5 +39,23 @@ namespace FirstExam.Controllers
                 ? NotFound(new { error = "Owner not found", status = 404 })
                 : Ok(owner);
         }
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateOwnerDto dto)
+        {
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
+            var owner = new Owner
+            {
+                Id = Guid.NewGuid(),
+                Email = dto.Email.Trim(),
+                FullName = dto.FullName.Trim(),
+                Active = dto.Active
+            };
+
+            _owners.Add(owner);
+
+            return CreatedAtAction(nameof(GetById), new { id = owner.Id }, owner);
+        }
     }
 }
