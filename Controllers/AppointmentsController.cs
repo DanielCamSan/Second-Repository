@@ -48,7 +48,8 @@ namespace FirstExam.Controllers
             var total = query.Count();
             var data = query.Skip((p - 1) * l).Take(l).ToList();
             return Ok(new
-            { data,
+            {
+                data,
                 meta = new { page = p, limit = l, total }
             });
         }
@@ -57,15 +58,15 @@ namespace FirstExam.Controllers
         public ActionResult<Appointment> GetOne(Guid id)
         {
             var appointment = _appointments.FirstOrDefault(a => a.Id == id);
-            return appointment is null 
-                ? NotFound(new{ error = "Appointment not found", status = 404})
+            return appointment is null
+                ? NotFound(new { error = "Appointment not found", status = 404 })
                 : Ok(appointment);
         }
 
         [HttpPost]
         public ActionResult<Appointment> Create([FromBody] CreateAppointmentDto dto)
         {
-            if(!ModelState.IsValid) return ValidationProblem(ModelState);
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
             var appointment = new Appointment
             {
@@ -84,7 +85,7 @@ namespace FirstExam.Controllers
         [HttpPut("{id : Guid}")]
         public ActionResult<Appointment> Update(Guid id, [FromBody] UpdateAppointmentDto dto)
         {
-            if(!ModelState.IsValid) return ValidationProblem(ModelState);
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
             var index = _appointments.FindIndex(a => a.Id == id);
             if (index == -1) return NotFound(new { error = "Appointment not found", status = 404 });
 
@@ -100,6 +101,14 @@ namespace FirstExam.Controllers
             return Ok(updated);
         }
 
+        [HttpDelete("{id : Guid}")]
+        public ActionResult Delete(Guid id)
+        {
+            var removed = _appointments.RemoveAll(a => a.Id == id);
+            return removed == 0
+                ? NotFound(new { error = "Appointment not found", status = 404 })
+                : NoContent();
+        }
 
     }
 }
