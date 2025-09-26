@@ -8,7 +8,7 @@ public class Owner
     [Required]
     public Guid Id { get; set; }
 
-    [Required, Length(0, 100)]
+    [Required, EmailAddress]
     public string Email { get; set; } = "";
 
     [Required, Length(0, 100)]
@@ -16,7 +16,7 @@ public class Owner
 
     [Required]
 
-    public bool Active { get; set; }
+    public bool Active { get; set; } = true;
 }
 public record CreateOwnerDto
 {
@@ -31,7 +31,7 @@ public record CreateOwnerDto
 
     [Required]
 
-     public bool Active { get; init; }
+    public bool Active { get; init; } = true;
 }
 public record UpdateOwnerDto
 {
@@ -46,5 +46,5 @@ public record UpdateOwnerDto
 
     [Required]
 
-     public bool Active { get; init; }
+    public bool Active { get; init; } = true;
 }
