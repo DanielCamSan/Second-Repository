@@ -68,11 +68,12 @@ namespace FirstExam.Controllers
 
         }
 
+       
         [HttpGet("{id:guid}")]
         public ActionResult<Owner> GetOne(Guid id)
         {
-            var owner = _owners.FirstOrDefault(a == a.Id == id);
-            return User is null ? NotFound(new { error = "Owner not found", status = 404}) : Ok(owner);
+            var owner = _owners.FirstOrDefault(a => a.Id == id);
+            return owner is null ? NotFound(new { error = "Owner not found", status = 404 }) : Ok(owner);
         }
 
         [HttpPost]
