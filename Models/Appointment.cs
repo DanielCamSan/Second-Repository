@@ -13,6 +13,7 @@ public class Appointment
 
     public record CreateAppointmentDto
     {
+        public Guid PetId { get; init; }
         public DateTime ScheduledAt { get; init; }
         [Required, StringLength(100)]
         public string Reason { get; init; }
@@ -23,6 +24,7 @@ public class Appointment
 
     public record UpdateAppointmentDto
     {
+        public Guid PetId { get; set; }
         public DateTime ScheduledAt { get; set; }
         [Required, StringLength(100)]
         public string Reason { get; set; }
