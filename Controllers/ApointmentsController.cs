@@ -79,7 +79,23 @@ namespace FirstExam.Controllers
             _apointments.Add(apointment);
             return CreatedAtAction(nameof(GetOne), new {id=apointment.Id});
         }
-     
+        [HttpPut("{id:guid}")]
+        public ActionResult<Apointment> Update(Guid id, [FromBody] UpdateApointmentDto dto)
+        {
+            var index = _apointments.FindIndex(a => a.Id == id);
+            if (index == -1) return NotFound();
+            var updated = new Apointment
+            {
+                Id = Guid.NewGuid(),
+                ScheduledAt = dto.ScheduledAt,
+                Reason = dto.Reason,
+                Status = dto.Status,
+                Notes = dto.Notes,
+            };
+            _apointments[index] = updated;
+            return Ok(updated);
+        }
+
 
 
     }
