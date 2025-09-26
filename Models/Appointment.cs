@@ -23,3 +23,11 @@ public record CreateAppointmentDto
     public string Status { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
 }
+
+public record UpdateAppointmentDto
+{
+    public DateTime ScheduledAt { get; set; }
+    [Required]
+    public string Status { get; set; } = string.Empty;
+    public string Notes { get; set; } = string.Empty;
+}
