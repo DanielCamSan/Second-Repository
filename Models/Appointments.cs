@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 
     [Required, StringLength(100)]
 
-    public string Status { get; set; } = string.Empty ;
+    public string Status { get; set; } = "Schedule";
 
     [Required, StringLength(100)]
     public string? Notes {  get; set; } = string.Empty ;
