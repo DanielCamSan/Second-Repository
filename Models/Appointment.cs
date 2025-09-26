@@ -12,7 +12,7 @@ public class Appointment
     public string Reason { get; set; } = string.Empty;
     [Required,StringLength(50)]
 
-    public string Status { get; set; } = string.Empty;
+    public string Status { get; set; } = "Scheduled";
     [Required, StringLength(50)]
 
     public string? Notes { get; set; }
@@ -21,10 +21,18 @@ public class Appointment
 }
 
 
-public record class CreateAppointmentDto
+public record CreateAppointmentDto
 {
     public DateTime ScheduledAt { get ; set; }
     public string Reason { get; set; } = string.Empty;
-    public string Status { get; set; } = string.Empty; 
+    public string Status { get; set; } = "Scheduled"; 
     public string? Notes { get; set;  }
+}
+
+public record UpdateAppointmentDto
+{
+    public DateTime ScheduledAt { get; set; }
+    public string Reason { get; set; } = string.Empty;
+    public string Status { get; set; } = "Scheduled";
+    public string? Notes { get; set; }
 }
