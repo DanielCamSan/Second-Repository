@@ -1,4 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
+builder.S
 
 // Add services to the container.
 

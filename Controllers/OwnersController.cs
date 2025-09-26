@@ -60,8 +60,54 @@ namespace FirstExam.Controllers
             });
         }
         [HttpGet("{id:guid}")]
+        public ActionResult<Owner> GetOne(Guid id)
+        {
+            var owner = _owners.FirstOrDefault(a => a.Id == id);
+            return owner is null
+                ? NotFound(new { error = "Owner not found ", status = 404 })
+                : Ok(owner);
+        }
 
-        public ActionResult<Owner>
+
+        [HttpPost]
+        public ActionResult<Owner> Create([FromBody] CreateOwnerDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var owner = new Owner
+            {
+                Id = Guid.NewGuid(),
+                Email = dto.Email,
+                Active = true
+            };
+            _owners.Add(owner);
+            return CreatedAtAction(nameof(GetOne), new {id=owner.Id},owner);
+
+        }
+        [HttpPut("{id: Guid}")]
+        public ActionResult<Owner> Update(Guid id, [FromBody] UpdateOwnerDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var index = _owners.FindIndex(a => a.Id == id);
+            if (index == -1) return NotFound(new { error = "Owner not found", status = 404 });
+
+            var updated = new Owner
+            {
+                Id = id,
+                Email = dto.Email
+            };
+
+            _owners[index] = updated;
+            return Ok(updated);
+        }
+
+        [HttpDelete("{id : Guid}")]
+        public ActionResult Delete(Guid id)
+        {
+            var removed = _owners.RemoveAll(a => a.Id == id);
+            return removed == 0
+                ? NotFound(new { error = "Owner not found", status = 404 })
+                : NoContent();
+        }
     }
     
 
