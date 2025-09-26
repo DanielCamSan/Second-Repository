@@ -22,8 +22,6 @@ public class Pet
 public record CreatePetDto
 {
     [Required]
-    public required Guid Id { get; init; }
-    [Required]
     public required Guid OwnerId { get; init; }
     [Required, StringLength(100)]
     public required string Name { get; init; }
@@ -41,8 +39,6 @@ public record CreatePetDto
 
 public record UpdatePetDto
 {
-    [Required]
-    public required Guid Id { get; set; }
     [Required]
     public required Guid OwnerId { get; set; }
     [Required, StringLength(100)]
