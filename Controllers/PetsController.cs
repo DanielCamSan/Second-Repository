@@ -67,6 +67,23 @@ namespace FirstExam.Controllers
                 ? NotFound(new { error = "Pet not found", status = 404 })
                 : Ok(pet);
         }
+
+        //Post method
+
+        [HttpPost]
+        public ActionResult<Pet> Create([FromBody] CreatePetDto dto)
+        {
+            if(!ModelState.IsValid) return ValidationProblem(ModelState);
+            var pet = new Pet
+            {
+                Id = Guid.NewGuid(),
+                Name = dto.Name,
+                Species = dto.Species,
+                Sex = dto.Sex,
+            };
+            _pets.Add(pet);
+            return CreatedAtAction(nameof(GetOne), new { id = pet.Id }, pet);
+        }
     }
 }
 
