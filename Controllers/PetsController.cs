@@ -62,6 +62,24 @@ namespace FirstExam.Controllers
                 ? NotFound(new { error = "Pet not Found", status = 404 })
                 : Ok(pet);
         }
+        [HttpPost]
+        public IActionResult Create([FromBody] CreatePetDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var pet = new Pet
+            {
+                Id = Guid.NewGuid(),
+                OwnerId = Guid.NewGuid(),
+                Name = dto.Name.Trim(),
+                Species = dto.Species.Trim(),
+                Breed = dto.Breed.Trim(),
+                Birthday = dto.Birthday,
+                sex = dto.sex.Trim(),
+                WeightKg = dto.WeightKg
+            };
+            _pets.Add(pet);
+            return CreatedAtAction(nameof(GetOne), new { id = pet.Id }, pet);
+        }
     }
 
 }
