@@ -1,5 +1,6 @@
 ﻿using FirstExam.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using System.Reflection;
 namespace FirstExam.Controllers
 {
@@ -15,20 +16,20 @@ namespace FirstExam.Controllers
             new Pet{Id=Guid.NewGuid(),OwnerId=Guid.NewGuid(),Name="d",Species="reptile",Breed="d",Birthday=DateTime.Parse("12-05-2013"),sex="m",WeightKg=10},
             new Pet{Id=Guid.NewGuid(),OwnerId=Guid.NewGuid(),Name="e",Species="other",Breed="e",Birthday=DateTime.Parse("12-05-2014"),sex="f",WeightKg=1}
         };
-        private static (int page ,int limit) NormalizePage(int? page,int? limit)
+        private static (int page, int limit) NormalizePage(int? page, int? limit)
         {
             var p = page.GetValueOrDefault(1); if (p < 1) p = 1;
-            var l = limit.GetValueOrDefault(10); if (l < 1) l = 1;if (l > 100) l = 100;
-            return (p,l);
+            var l = limit.GetValueOrDefault(10); if (l < 1) l = 1; if (l > 100) l = 100;
+            return (p, l);
         }
-        private static IEnumerable<T> OrderByProp<T>(IEnumerable<T> src,string? sort,string? order)
+        private static IEnumerable<T> OrderByProp<T>(IEnumerable<T> src, string? sort, string? order)
         {
             if (string.IsNullOrWhiteSpace(sort)) return src;
             var prop = typeof(T).GetProperty(sort, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             if (prop is null) return src;
             return string.Equals(order, "desc", StringComparison.OrdinalIgnoreCase)
                 ? src.OrderByDescending(x => prop.GetValue(x))
-                : src.OrderBy(x=>prop.GetValue(x));
+                : src.OrderBy(x => prop.GetValue(x));
         }
         [HttpGet]
         public IActionResult GetAll([FromQuery] int? page,
@@ -51,7 +52,7 @@ namespace FirstExam.Controllers
             var data = query.Skip((p - 1) * l).Take(l).ToList();
             return Ok(new
             { data,
-              meta = new {page=p, limit=l, total} 
+                meta = new { page = p, limit = l, total }
             });
         }
         [HttpGet("{id:guid}")]
@@ -81,7 +82,7 @@ namespace FirstExam.Controllers
             return CreatedAtAction(nameof(GetOne), new { id = pet.Id }, pet);
         }
         [HttpPut("{id:guid}")]
-        public IActionResult Update(Guid id,[FromBody] UpdatePetDto dto)
+        public IActionResult Update(Guid id, [FromBody] UpdatePetDto dto)
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
             var index = _pets.FindIndex(p => p.Id == id);
@@ -100,6 +101,14 @@ namespace FirstExam.Controllers
             };
             _pets[index] = updated;
             return Ok(updated);
+        }
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = _pets.RemoveAll(p => p.Id == id);
+            return removed == 0
+                ? NotFound(new { error = "Pet not Found", status = 404 })
+                : NoContent();
         }
     }
 
