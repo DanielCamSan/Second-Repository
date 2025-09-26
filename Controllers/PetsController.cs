@@ -88,6 +88,25 @@ namespace FirstExam.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult<Pets> Create([FromBody] CreatePetDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var pet = new Pets
+            {
+                Id = Guid.NewGuid(),
+                OwnerId= Guid.NewGuid(),
+                Name = dto.Name.Trim(),
+                Species= dto.Species.Trim(),
+                Breed = dto.Breed.Trim(),
+                BirthData = dto.BirthData,
+                Sex = dto.Sex.Trim(),
+            };
+
+            _pets.Add(pet);
+            return CreatedAtAction(nameof(GetOne), new { id = pet.Id }, pet);
+        }
 
 
 
