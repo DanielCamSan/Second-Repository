@@ -90,6 +90,27 @@ namespace newCRUD.Controller
                 : Ok(pet);
         }
 
+        [HttpPost]
+        public ActionResult<Pet> Create([FromBody] CreatePetDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var pet = new Pet
+            {
+                Id = Guid.NewGuid(),
+                OwnerId = Guid.NewGuid(),
+                Name = dto.Name.Trim(),
+                Species = dto.Species.Trim(),
+                Breed = dto.Breed.Trim(),
+                BirthDate = dto.BirthDate,
+                Sex = dto.Sex.Trim(),
+                WeightKg = dto.WeightKg
+            }
+
+            _pets.Add(pet);
+            return CreatedAtAction(nameof(GetOne), new { id = pet.Id }, pet);
+        }
+
 
     }
 }
