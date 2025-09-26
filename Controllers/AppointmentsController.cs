@@ -57,7 +57,7 @@ namespace FirstExam.Controllers
         {
             var appointment = _appointments.FirstOrDefault(a=> a.Id == id);
             return appointment is null
-                ? NotFound(new { error = "No se encontro", status = 404 })
+                ? NotFound(new { error = "Appointments not found", status = 404 })
                 : Ok(appointment);
         }
 
@@ -88,7 +88,7 @@ namespace FirstExam.Controllers
 
             var index = _appointments.FindIndex(a => a.Id == id);
             if (index == -1)
-                return NotFound(new { error = "Subscription not found", status = 404 });
+                return NotFound(new { error = "Appointments not found", status = 404 });
 
             var updated = new Appointments
             {
@@ -105,6 +105,15 @@ namespace FirstExam.Controllers
             return Ok(updated);
         }
 
+        [HttpDelete("{id:Guid}")]
+
+        public IActionResult Delete(Guid id)
+        {
+            var removed = _appointments.RemoveAll(a => a.Id == id);
+            return removed == 0 
+                ? NotFound(new { error = "Appointments not found", status = 404 })
+                : NoContent();
+        }
 
 
 
