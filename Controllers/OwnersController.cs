@@ -31,5 +31,13 @@ namespace FirstExam.Controllers
                 meta = new { page, limit, total }
             });
         }
+        [HttpGet("{id:guid}")]
+        public IActionResult GetById(Guid id)
+        {
+            var owner = _owners.FirstOrDefault(o => o.Id == id);
+            return owner == null
+                ? NotFound(new { error = "Owner not found", status = 404 })
+                : Ok(owner);
+        }
     }
 }
