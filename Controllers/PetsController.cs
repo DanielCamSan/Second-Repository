@@ -32,7 +32,6 @@ namespace FirstExam.Controllers
                 ? src.OrderByDescending(x => prop.GetValue(x))
                 : src.OrderBy(x => prop.GetValue(x));
         }
-
         [HttpGet]
         public IActionResult GetAll(
             [FromQuery] int? page, 
