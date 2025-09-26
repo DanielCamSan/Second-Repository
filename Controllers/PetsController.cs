@@ -79,5 +79,13 @@ namespace FirstExam.Controllers
             return Ok(new {data,meta=new { page=p,limit=l,total}} );
 
         }
+
+        [HttpGet("{id:guid}")]
+        public ActionResult<Pet> GetOne(Guid id)
+        {
+            var pet = pets.FirstOrDefault<Pet>(pets => pets.Id == id);
+            return pet is null ? NotFound(new { error = "Pet not found", status = 404 }):Ok(pet);
+        }
+
     }
 }
