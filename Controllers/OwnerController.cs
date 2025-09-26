@@ -90,6 +90,24 @@ namespace FirstExam.Controllers
             return CreatedAtAction(nameof(Create), new { id = owner.Id }, owner );
 
         }
+
+        [HttpPut("{id:guid}")]
+        public ActionResult<Owner> Update(Guid id, [FromBody] UpdateOwnerDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var index = _owners.FindIndex(a => a.Id == id);
+            if (index == -1)
+                return NotFound(new { error = "Owner not found", status = 404 });
+            var updated = new Owner
+            {
+                Id = id,
+                Email = dto.Email.Trim(),
+                FullName = dto.FullName.Trim(),
+                Active = dto.Active
+            };
+            _owners[index] = updated;
+            return Ok(updated);
+        }
         
 
 
