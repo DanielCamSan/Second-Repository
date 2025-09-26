@@ -14,7 +14,14 @@ namespace FirstExam.Controllers
             new Pet {Id = Guid.NewGuid(), Name = "Cookie", Species = "cat", Sex = "female" },
             new Pet {Id = Guid.NewGuid(), Name = "Red", Species = "bird", Sex = "male" },
         };
+        private static (int page, int limit) NormalizePage(int? page, int? limit)
+        {
+            var p = page.GetValueOrDefault(1); if (p < 1) p = 1;
+            var l = page.GetValueOrDefault(10); if (l < 1) l = 1; if (l > 100) l = 100;
+            return (p, l);
+        }
 
+        
 
     }
 }
