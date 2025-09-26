@@ -25,7 +25,6 @@ namespace FirstExam.Models
 
     public record UpdateAppointmentDto
     {
-        [Required] public DateOnly ScheduledAt { get; init; } // fecha y hora agendada  
         [Required] public String Reason { get; init; }// vacunación, control, cirugía, etc. 
         [Required] public String Status { get; init; } = "scheduled";// scheduled | completed | canceled | no_show 
         public String? Notes { get; init; }
