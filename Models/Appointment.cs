@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace VetClinicApi.Models
+namespace FirstExam.Models
 {
     public class Appointment
     {
