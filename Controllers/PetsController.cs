@@ -68,7 +68,31 @@ namespace FirstExam.Controllers
             pets.Add(pet);
             return CreatedAtAction(nameof(GetOne), new { id = pet.Id }, pet);
         }
-        
+        public ActionResult<Pet> Update(Guid id, [FromBody] UpdatePetDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var index = pets.FindIndex(a => a.Id == id);
+            if (index == -1) return NotFound(new { error = "Pet not found", status = 404 });
+            var updated = new Pet 
+            {
+                Id = new Guid(),
+                OwnerId = dto.OwnerId,
+                Name = dto.Name,
+                Species = dto.Species,
+                Breed = dto.Breed,
+                Birthdate = dto.Birthdate,
+                Sex = dto.Sex,
+                WeightKg = dto.WeightKg
+            };
+            pets[index] = updated;
+            return Ok(updated);
+        }
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = pets.RemoveAll(a => a.Id == id);
+            return removed == 0 ? NotFound(new { error = "Pet not found", status = 404 }) : NoContent();
+        }
 
     }
 }
