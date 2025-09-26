@@ -48,8 +48,11 @@ namespace Owners.Controllers
         public ActionResult<Owner> Create([FromBody] CreateOwnerDto dto)
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
-            var owners = new Owner{Id=Guid.NewGuid(), Email=dto.Email, FullName=}
+            var owners = new Owner { Id = Guid.NewGuid(), Email = dto.Email, FullName = dto.FullName, Active = dto.Active };
+            _owners.Add(owners);
+            return CreatedAtAction(nameof(GetOne), new { id = owners.Id }, owners);
         }
+        
 
     }
 }
