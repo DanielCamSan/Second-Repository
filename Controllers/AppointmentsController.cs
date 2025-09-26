@@ -59,6 +59,12 @@ namespace Appointments.Controller
                 meta = new { page = p, limit = l, total }
             }); 
         }
+        [HttpGet("{id:guid}")]
+        public ActionResult<Appointment>getById([FromRoute] Guid id)
+        {
+            var appointment = _appointments.FirstOrDefault(x => x.Id == id); 
+            return appointment is null? NotFound(new {error = "Appointmen not found", status = 404 }) : Ok(appointment);
+        }
 
     }
 
