@@ -22,3 +22,13 @@ public record CreatePetDto
     public string Sex { get; init; } = string.Empty;
     public decimal? WeightKg { get; init; }
 }
+public record UpdatePetDto
+{
+    public Guid OwnerId { get; init; }
+    public string Name { get; init; } = string.Empty;
+    public string Species { get; init; } = string.Empty;
+    public string Breed { get; init; } = string.Empty;
+    public DateTime Birthdate { get; init; }
+    public string Sex { get; init; } = string.Empty;
+    public decimal? WeightKg { get; init; }
+}
