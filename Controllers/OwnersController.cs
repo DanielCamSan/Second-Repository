@@ -46,6 +46,53 @@ namespace FirstExam.Controllers
             var data = query.Skip((p-1)-l).Take(l).ToList();
             return Ok(new { data, meta = new { Page = p, limit = l, total } });
         }
+        [HttpGet("{id:guid}")]
+        public ActionResult<Owner> GetOne(Guid id)
+        {
+            var owner = owners.FirstOrDefault(a => a.Id == id);
+            return owner is null ? NotFound(new { error = "owner not found ", status = 404 }); Ok(owner);  
+
+        }
+        [HttpPost]
+        public ActionResult<Owner> Create([FromBody] CreateOwnerDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var owner = new Owner()
+            {
+                Id = Guid.NewGuid(),
+                Email = dto.Email.Trim(),
+                FullName = dto.FullName.Trim(),
+                Phone = dto.Phone.Trim(),
+                Active = dto.Active,
+            };
+
+            owners.Add(owner);
+            return CreatedAtAction(nameof(GetOne), new {id=owner.Id},owner);
+        }
+        [HttpPut("{id:guid}")]
+        public ActionResult<Owner> Update(Guid id, [FromBody] UpdateOwnerDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            var index = owners.FindIndex(a => a.Id == id);
+            if (index == -1)
+                return NotFound(new { error = "Owner not found", status = 404 });
+            var updated = new Owner
+            {
+                Id = id,
+                Email = dto.Email.Trim(),
+                FullName = dto.FullName.Trim(),
+                Phone = dto.Phone.Trim(),
+                Active = dto.Active
+            };
+            owners[index]=updated;
+            return Ok(updated);
+        }
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            var removed = owners.RemoveAll(a => a.Id == id);
+            return removed == 0 ? NotFound(new { error = "Owner not found", status = 404 }) : NoContent();
+        }
 
     }
 }
