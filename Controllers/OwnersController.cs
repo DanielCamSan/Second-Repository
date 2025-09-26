@@ -68,9 +68,5 @@ namespace Owners.Controllers
             var removed = _owners.RemoveAll(a => a.Id == id);
             return removed == 0 ? NotFound(new { error = "Owner not found", status = 404 }) : NoContent();
         }
-
-
-
-
     }
 }
