@@ -54,7 +54,7 @@ namespace FirstExam.Controllers
             {
                 query = query.Where(o =>
                 o.Email.Contains(q, StringComparison.OrdinalIgnoreCase) ||
-                o.FullName.Contains(q, StringComparison.OrdinalIgnoreCase);
+                o.FullName.Contains(q, StringComparison.OrdinalIgnoreCase));
             }
 
             if (!string.IsNullOrWhiteSpace(names))
