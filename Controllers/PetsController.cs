@@ -105,13 +105,36 @@ namespace newCRUD.Controller
                 BirthDate = dto.BirthDate,
                 Sex = dto.Sex.Trim(),
                 WeightKg = dto.WeightKg
-            }
+            };
 
             _pets.Add(pet);
             return CreatedAtAction(nameof(GetOne), new { id = pet.Id }, pet);
         }
 
+        [HttpPut("{id:guid}")]
+        public ActionResult<Pet> Update(Guid id, [FromBody] UpdatePetDto dto)
+        {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
+            var index = _pets.FindIndex(m => m.Id == id);
+            if (index == -1)
+                return NotFound(new { error = "Pet not found", status = 404 });
+
+            var updated = new Pet
+            {
+                Id = Guid.NewGuid(),
+                OwnerId = Guid.NewGuid(),
+                Name = dto.Name.Trim(),
+                Species = dto.Species.Trim(),
+                Breed = dto.Breed.Trim(),
+                BirthDate = dto.BirthDate,
+                Sex = dto.Sex.Trim(),
+                WeightKg = dto.WeightKg
+            };
+
+            _pets[index] = updated;
+            return Ok(updated);
+        }
     }
 }
   
