@@ -40,5 +40,24 @@ namespace FirstExam.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = appointment.Id }, appointment);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(Guid id, [FromBody] Appointment.UpdateAppointmentDto dto)
+        {
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+            
+            var appointment = _appointments.FirstOrDefault(a => a.Id == id);
+            if (appointment == null)
+                return NotFound(new { error = "Appointment not found", status = 404 });
+
+            appointment.ScheduledAt = dto.ScheduledAt;
+            appointment.Reason = dto.Reason;
+            appointment.Status = dto.Status;
+            appointment.Notes = dto.Notes;
+
+            return Ok(appointment);
+        }
+
     }
 }
