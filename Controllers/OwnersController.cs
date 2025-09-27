@@ -6,6 +6,7 @@ namespace FirstExam.Controllers
 {
     [ApiController]
     [Route("api/v1/[Controller]")]
+    //Bien configurado
     public class OwnersController : Controller
     {
         public static readonly List<Owner> owners = new()

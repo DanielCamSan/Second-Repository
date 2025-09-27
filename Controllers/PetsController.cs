@@ -100,6 +100,7 @@ namespace FirstExam.Controllers
                 OwnerId = dto.OwnerId,
                 Name = dto.Name.Trim(),
                 Species = dto.Species.Trim(),
+                //Aqui estas asignando la especie no se crea bien
                 Breed = dto.Species.Trim(),
                 BirthDate = dto.BirthDate,
                 sex = dto.sex.Trim(),

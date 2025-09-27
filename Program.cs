@@ -5,6 +5,7 @@ builder.Services.AddCors(
     {
         options.AddPolicy("MiPoliticaCors", policy =>
         {
+            //EL CORS PED PARA TODAS LAS IPS NO ESPECIFICAS
             policy.WithOrigins("https://localhost:7162", "http://127.0.0.1:5500").AllowAnyMethod().AllowAnyHeader();
         });
     });

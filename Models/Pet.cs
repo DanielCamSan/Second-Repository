@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+//pusiste data anotations innecesarios no pedi que todos sean required!
 public class Pet
 {
     [Required]

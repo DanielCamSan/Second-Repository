@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+//Bien configurado appointment
 public class Appointment
 {
     public Guid Id { get; set; }
