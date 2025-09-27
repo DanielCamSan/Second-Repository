@@ -6,6 +6,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyPolicy", policy =>
     {
+        //Que origen del cors? es para todos los origenes
         policy.WithOrigins("").AllowAnyMethod().AllowAnyHeader();
     });
 });
