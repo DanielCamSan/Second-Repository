@@ -58,6 +58,7 @@ namespace FirstExam.Controllers
             _owners.Add(item);
             return CreatedAtAction(nameof(GetById), new { id = item }, item);
         }
+        //Mala ruta 
         [HttpDelete]
         public IActionResult DeleteById(Guid id)
         {
