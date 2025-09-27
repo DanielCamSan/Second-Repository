@@ -20,7 +20,10 @@ public class Pet
 
 //DTOs
 
-public record CreateVetDto
+//mal nombre de los dtos, NO ME COMPILA
+
+public record CreatePetDto
+//public record CreateVetDto
 {
     [Required, StringLength(100)]
     public string Name { get; set; }
@@ -30,7 +33,8 @@ public record CreateVetDto
     public string Sex { get; set; }
 }
 
-public record UpdateVetDto
+public record UpdatePetDto
+//public record UpdateVetDto
 {
     [Required, StringLength(100)]
     public string Name { get; set; }

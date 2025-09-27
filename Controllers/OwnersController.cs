@@ -6,7 +6,9 @@ using System.Reflection;
 namespace FirstExam.Controllers
 {
     [ApiController]
-    [Route("api/[Controlller]")]
+    //Es controller no me compila
+    //[Route("api/[Controlller]")]
+    [Route("api/[Controller]")]
     public class OwnersController : ControllerBase 
     {
         private static readonly List<Owner> _owners = new()
