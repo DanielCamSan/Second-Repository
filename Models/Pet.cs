@@ -20,7 +20,8 @@ using System.Threading.Tasks;
     public DateTime Birthdate { get; set; }
     [Required, StringLength(100)]
     public string Sex { get; set; }= string.Empty;
-    [Required, StringLength(100)]
+    //porque pones validador de string aca?
+    [Required]//, StringLength(100)]
     public decimal? WeightKg { get; set; }
 
 }
@@ -43,7 +44,8 @@ public record CreatePetDto
 
     [Required, StringLength(100)]
     public string Sex { get; init; } = string.Empty;
-    [Required, StringLength(100)]
+    //porque pones validador de string aca?
+    [Required]//, StringLength(100)]
     public decimal? WeightKg { get; init; }
 
 }
