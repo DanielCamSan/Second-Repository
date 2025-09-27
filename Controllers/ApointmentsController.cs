@@ -30,6 +30,7 @@ namespace FirstExam.Controllers
             ? src.OrderByDescending(x=> prop.GetValue(x))
             : src.OrderBy(x=> prop.GetValue(x));
         }
+        //no esta implementado
         /*
         [HttpGet]
         public IActionResult GetAll(
@@ -64,7 +65,8 @@ namespace FirstExam.Controllers
             public ActionResult<Apointment>GetOne(Guid id) 
             {
                     var apointment=_apointments.FirstOrDefault(a => a.Id == id);
-                    return apointment is null ? NotFound() : Ok(apointment);
+            //manejo de error personalizado falta
+            return apointment is null ? NotFound() : Ok(apointment);
             }
         [HttpPost]
         public ActionResult<Apointment> Create([FromBody] CreateApointmentDto dto) 
@@ -100,7 +102,8 @@ namespace FirstExam.Controllers
         public IActionResult Delete(Guid id)
         {
             var removed =_apointments.RemoveAll(a => a.Id == id);
-            return  removed == 0 ? NotFound() : NoContent();
+            //manejo de error personalizado falta
+            return removed == 0 ? NotFound() : NoContent();
         }
     }
 }

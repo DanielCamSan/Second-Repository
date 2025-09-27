@@ -42,6 +42,7 @@ namespace FirstExam.Controllers
         }
 
         [HttpGet]
+        //solo me devuelve el primer registro
         public IActionResult GetAll(
             [FromQuery] int page, [FromQuery] int? limit,
             [FromQuery] string? sort, [FromQuery] string? order,
@@ -75,6 +76,7 @@ namespace FirstExam.Controllers
         public ActionResult<Owner> GetOne(Guid id)
         {
             var owner = _owners.FirstOrDefault(o => o.Id == id);
+            //manejo de error personalizado falta
             return owner is null ? NotFound() : Ok(owner);
         }
 
@@ -114,6 +116,7 @@ namespace FirstExam.Controllers
         public IActionResult Delete(Guid id)
         {
             var removed = _owners.RemoveAll(o => o.Id == id);
+//manejo de error personalizado falta
             return removed == 0 ? NotFound() : NoContent();
 
         }

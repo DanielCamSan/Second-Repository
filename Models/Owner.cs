@@ -7,7 +7,7 @@ public class Owner
 {
     public Guid Id { get; set; }
 
-
+    //Validador IsEmailAddress
     [Required, StringLength(100)]
     public string Email { get; set; }
 
