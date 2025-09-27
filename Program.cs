@@ -6,6 +6,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("MiPoliticaCors", policy =>
     {
+        //El cors era para todos no solo para algunas ips
         policy.WithOrigins("https://localhost:7047",
                   "http://127.0.0.1:5500")
               .AllowAnyMethod()

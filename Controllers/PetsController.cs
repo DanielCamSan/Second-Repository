@@ -6,6 +6,7 @@ namespace FirstExam.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    //Excelente implementacion
     public class PetsController : ControllerBase
     {
         private static readonly List<Pets> _pets = new() {
