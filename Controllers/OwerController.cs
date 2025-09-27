@@ -3,10 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FirstExam.Controllers
 {
+    //mal nombre del controller
     [ApiController]
     [Route("/api/v1/[controller]")]
     public class OwerController : Controller
     {
+        //Inicializar la lista la siguiente vez es mas dificil probar
         private static readonly List<Owners> _owners = new();
 
         [HttpGet]
@@ -31,6 +33,7 @@ namespace FirstExam.Controllers
                 order = "asc";
             }
             var query = _owners.AsQueryable();
+            //no funciona para nada mas que Email
             query = sort switch
             {
                 "Email" => order == "asc" ? query.OrderBy(a => a.Email) : query.OrderByDescending(a => a.Email)
@@ -46,6 +49,7 @@ namespace FirstExam.Controllers
             var item = _owners.FirstOrDefault(o => o.Id == id);
             return item == null ? NotFound() : View(item);
         }
+        //Los creas vacios y no los devuelves
         [HttpPost]
         public IActionResult Create([FromBody] CreateOwerDto dto)
         {

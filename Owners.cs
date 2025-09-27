@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace FirstExam
 {
+    //Esta muy bien pero fuera de la carpeta models!
     public class Owners
     {
         public Guid Id { get; set; }

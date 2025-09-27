@@ -8,6 +8,7 @@ namespace FirstExam.Controllers
     [Route("api/v1/pets")]
     public class PetsController : ControllerBase
     {
+        //Inicializar la lista la siguiente vez es mas dificil probar
         private static readonly ConcurrentDictionary<Guid, Pets> _store = new();
 
         [HttpGet]
@@ -66,6 +67,7 @@ namespace FirstExam.Controllers
         public ActionResult<Pets> GetById(Guid id)
         {
                 if (!_store.TryGetValue(id, out var pet))
+                //Falta manejo de errores personalizados
                 return NotFound();
 
             return Ok(pet);
@@ -103,6 +105,7 @@ namespace FirstExam.Controllers
                 return ValidationProblem(ModelState);
 
             if (!_store.TryGetValue(id, out var existing))
+                //Falta manejo de errores personalizados
                 return NotFound();
 
             existing.Name      = dto.Name;
@@ -118,6 +121,7 @@ namespace FirstExam.Controllers
         }
 
         // DELETE /api/v1/pets/{id}
+        //Falta manejo de errores personalizados
         [HttpDelete("{id:guid}")]
         public IActionResult Delete(Guid id)
         {

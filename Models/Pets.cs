@@ -24,7 +24,7 @@ public record createPetsDTO
 
     [Required, StringLength(100)]
     public string Name { get; set; } = string.Empty;
-
+    //Excelete manejo de regular expression 
     [Required, RegularExpression("^(?i)(dog|cat|bird|reptile|other)$")]
     public string Species { get; set; } = string.Empty;
 
