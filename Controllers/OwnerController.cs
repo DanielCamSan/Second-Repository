@@ -4,6 +4,7 @@ using System.Xml;
 
 namespace FirstExam.Controllers
 {
+    //ruta pedi api/v1 y el nombre del controller siempre en plural 
     [ApiController]
     [Route("[controller]")]
     public class OwnerController : ControllerBase

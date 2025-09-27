@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 public class Owner
 {
     public Guid Id { get; set; }
-    
+    //Validador del email no es Stringlength
     [Required, StringLength(100)]
     public string Email { get; set; }
     
