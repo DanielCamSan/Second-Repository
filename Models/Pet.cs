@@ -9,6 +9,7 @@ namespace FirstExam.Models
         [Required]
         public string Species { get; set; } = string.Empty;
         public string Breed { get; set; } = string.Empty;
+        //era BirthDate
         public DateTime Birthday { get; set; }
         [Required]
         public string sex { get; set; } = string.Empty;
